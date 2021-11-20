@@ -56,4 +56,8 @@ public class StreetCellDrawing {
     public void setHasCar(boolean hasCar) {
         this.hasCar = hasCar;
     }
+
+    public int getType() {
+        return type;
+    }
 }

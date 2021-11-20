@@ -33,4 +33,11 @@ public class CarDrawing {
         graphics2D.fill(wheel4);
     }
 
+    public void setxPos(int xPos) {
+        this.xPos = xPos;
+    }
+
+    public void setyPos(int yPos) {
+        this.yPos = yPos;
+    }
 }

@@ -8,9 +8,19 @@ public class Main {
         JFrame jFrame = new JFrame();
         jFrame.setSize(w,h);
         jFrame.setTitle("Mundo");
-        jFrame.add(new World(w,h));
+        World world = new World(w,h);
+        jFrame.add(world);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setVisible(true);
+
+        int count = 0;
+        while (count<10){
+            world.moveCars();
+
+//            jFrame.getContentPane().validate();
+//            jFrame.getContentPane().repaint();
+//            count++;
+        }
     }
 
 }

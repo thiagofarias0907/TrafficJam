@@ -1,5 +1,4 @@
 import Enums.StreetCellEnum;
-import DrawingPatterns.CarDrawing;
 import DrawingPatterns.StreetCellDrawing;
 
 import javax.swing.*;
@@ -18,14 +17,36 @@ public class World extends JComponent {
     private static int matrixSize = 20;
     private static int roadColWidth;
     private static int roadLineWidth;
-    private static List streetCellList;
-    private static Set carsList = new HashSet();
+    private static List<StreetCell> streetCellList = new ArrayList();
+    private static Set<CarThread> carsList = new HashSet();
+
+    private Graphics2D graphics2D;
 
     public World(int width, int height) {
         this.width = width;
         this.height = height;
         roadColWidth = height/matrixSize;
         roadLineWidth = width/matrixSize;
+        //read a file and draw street map
+        readMapFile(graphics2D);
+        //add first cars
+        if (carsList.isEmpty())
+            addCars();
+
+        Thread worldThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    repaint();
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        worldThread.start();
     }
 
     /**
@@ -58,11 +79,14 @@ public class World extends JComponent {
             graphics2D.draw(cols);
         }
 
-        //read a file and draw the streets
-        readMapFile(graphics2D);
-        addCar();
+        this.graphics2D = graphics2D;
+        //draw street and cars
+        streetCellList.forEach( streetCell ->{
+            streetCell.getStreetCellDrawing().draw(graphics2D);
+        });
         carsList.forEach(car ->{
-            ((CarDrawing) car).draw(graphics2D);
+            ((CarThread) car).setGraphics2D(graphics2D);
+            ((CarThread) car).getCarDrawing().draw(graphics2D);
         });
 
     }
@@ -72,7 +96,7 @@ public class World extends JComponent {
      * @param graphics2D
      */
     private void readMapFile(Graphics2D graphics2D)  {
-        streetCellList = new ArrayList<StreetCellDrawing>();
+        streetCellList = new ArrayList<StreetCell>();
         String file ="C:\\Users\\Thiago\\Desktop\\Malhas de Exemplo-20211110\\malha1-caso1.txt";
         BufferedReader reader = null;
         try {
@@ -119,9 +143,6 @@ public class World extends JComponent {
                             isBegin = true;
                     }
 
-
-
-
                     // Create a object streetCell in order to draw it on screen
                     StreetCellDrawing streetCellDrawing = new StreetCellDrawing(
                             j*roadColWidth,
@@ -129,13 +150,13 @@ public class World extends JComponent {
                             roadColWidth,
                             roadLineWidth,
                             Integer.parseInt(map[i][j]),
-                            getColor(map[i][j]),
-                            false,
-                            isBegin,
-                            isEnd
+                            getColor(map[i][j])
+                            ,false
+                            ,isBegin
+                            ,isEnd
                     );
-                    streetCellDrawing.draw(graphics2D);
-                    streetCellList.add(streetCellDrawing);
+                    StreetCell streetCell = new StreetCell(false,isBegin,isEnd,streetCellDrawing);
+                    streetCellList.add(streetCell);
                 }
                 String l = i + " - " ;
                 for (String s : map[i]) {
@@ -159,20 +180,51 @@ public class World extends JComponent {
         return new Color(0,0,0);
     }
 
-    public void addCar(){
-        streetCellList.forEach(cell ->{
-            CarDrawing c;
-            if (((StreetCellDrawing) cell).isBegin() && !((StreetCellDrawing) cell).isHasCar()) {
-                c = new CarDrawing(((StreetCellDrawing) cell).getxPos(), ((StreetCellDrawing) cell).getyPos(), 20);
-                carsList.add(c);
-                ((StreetCellDrawing) cell).setHasCar(true);
+    public void addCars(){
+        streetCellList.forEach(streetCell ->{
+            StreetCellDrawing streetCellDrawing = streetCell.getStreetCellDrawing();
+            CarThread carThread = new CarThread(streetCell,streetCellDrawing.getxPos(), streetCellDrawing.getyPos(),streetCellDrawing.getType());
+            if (streetCellDrawing.isBegin() && !streetCellDrawing.isHasCar()) {
+                carsList.add(carThread);
+                streetCell.setHasCar(true);
             }
         });
     }
 
-    //this won't be a solution for the project itself, since we need to actually create each car as a thread
-    public void moveCars(){
-
+    public CarThread newCar(){
+        for (StreetCell streetCell : streetCellList) {
+            StreetCellDrawing streetCellDrawing = streetCell.getStreetCellDrawing();
+            if (streetCellDrawing.isBegin() && !streetCellDrawing.isHasCar()) {
+                return new CarThread(streetCell,streetCellDrawing.getxPos(), streetCellDrawing.getyPos(),streetCellDrawing.getType());
+            }
+        }
+        return null;
     }
 
+    public void moveCars(){
+
+        for (CarThread carThread : carsList) {
+            if(outOfBounds(carThread)) {
+                CarThread newCar = newCar();
+                carThread.setDirection(newCar.getDirection());
+                carThread.setPosX(newCar.getPosX());
+                carThread.setPosY(newCar.getPosX());
+                carThread.setCarDrawing(newCar.getCarDrawing());
+                carThread.setStreetCell(newCar.getStreetCell());
+                continue;
+            }
+            carThread.setGraphics2D(this.graphics2D);
+            carThread.run();
+            Thread thread = new Thread(carThread);
+            thread.start();
+        }
+    }
+
+    public boolean outOfBounds(CarThread carThread){
+        if (carThread.getPosX() < 0 || carThread.getPosX() > width)
+            return true;
+        if (carThread.getPosY() < 0 || carThread.getPosY() > height)
+            return true;
+        return false;
+    }
 }
