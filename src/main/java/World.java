@@ -1,14 +1,21 @@
-import Enums.StreetCellEnum;
 import DrawingPatterns.StreetCellDrawing;
+import Enums.StreetCellEnum;
+import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultDirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.DefaultEdgeFunction;
+import org.jgrapht.graph.SimpleDirectedGraph;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.*;
-import java.io.*;
-import java.util.HashSet;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.*;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Set;
 
 public class World extends JComponent {
 
@@ -20,7 +27,14 @@ public class World extends JComponent {
     private static List<StreetCell> streetCellList = new ArrayList();
     private static Set<CarThread> carsList = new HashSet();
 
+
+    HashMap<Integer,Graph> graphHashMap = new HashMap<>();
+
+    private int columns;
+    private int lines;
+
     private Graphics2D graphics2D;
+
 
     public World(int width, int height) {
         this.width = width;
@@ -28,7 +42,7 @@ public class World extends JComponent {
         roadColWidth = height/matrixSize;
         roadLineWidth = width/matrixSize;
         //read a file and draw street map
-        readMapFile(graphics2D);
+        readMapFile();
         //add first cars
         if (carsList.isEmpty())
             addCars();
@@ -85,25 +99,24 @@ public class World extends JComponent {
             streetCell.getStreetCellDrawing().draw(graphics2D);
         });
         carsList.forEach(car ->{
-            ((CarThread) car).setGraphics2D(graphics2D);
-            ((CarThread) car).getCarDrawing().draw(graphics2D);
+            car.setGraphics2D(graphics2D);
+            car.getCarDrawing().draw(graphics2D);
         });
 
     }
 
     /**
-     * Read a source map file and draw it's streets 'cells' / parts
-     * @param graphics2D
+     * Read a source map file
      */
-    private void readMapFile(Graphics2D graphics2D)  {
+    private void readMapFile()  {
         streetCellList = new ArrayList<StreetCell>();
         String file ="C:\\Users\\Thiago\\Desktop\\Malhas de Exemplo-20211110\\malha1-caso1.txt";
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(file));
 
-            int lines = Integer.parseInt(reader.readLine());
-            int columns  = Integer.parseInt(reader.readLine());
+            lines = Integer.parseInt(reader.readLine());
+            columns  = Integer.parseInt(reader.readLine());
 
             String[][] map = new String[lines][columns];
 
@@ -151,12 +164,13 @@ public class World extends JComponent {
                             roadLineWidth,
                             Integer.parseInt(map[i][j]),
                             getColor(map[i][j])
-                            ,false
-                            ,isBegin
-                            ,isEnd
                     );
-                    StreetCell streetCell = new StreetCell(false,isBegin,isEnd,streetCellDrawing);
+                    StreetCell streetCell = new StreetCell(j*roadColWidth,i*roadLineWidth,false,isBegin,isEnd,Integer.parseInt(map[i][j]),streetCellDrawing);
                     streetCellList.add(streetCell);
+
+//                    if (Integer.parseInt(map[i][j]) != 0)
+//                        g.addVertex(streetCell);
+
                 }
                 String l = i + " - " ;
                 for (String s : map[i]) {
@@ -164,6 +178,10 @@ public class World extends JComponent {
                 }
                 System.out.println(l);
             }
+
+            //create routes as graphs
+            makeGraphs();
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -182,10 +200,10 @@ public class World extends JComponent {
 
     public void addCars(){
         streetCellList.forEach(streetCell ->{
-            StreetCellDrawing streetCellDrawing = streetCell.getStreetCellDrawing();
-            CarThread carThread = new CarThread(streetCell,streetCellDrawing.getxPos(), streetCellDrawing.getyPos(),streetCellDrawing.getType());
-            if (streetCellDrawing.isBegin() && !streetCellDrawing.isHasCar()) {
+            CarThread carThread = new CarThread(streetCell,streetCell.getxPos(), streetCell.getyPos(),streetCell.getType());
+            if (streetCell.isBegin() && !streetCell.hasCar()) {
                 carsList.add(carThread);
+                carThread.setPathGraph(graphHashMap.get(streetCellList.indexOf(streetCell)));
                 streetCell.setHasCar(true);
             }
         });
@@ -193,9 +211,11 @@ public class World extends JComponent {
 
     public CarThread newCar(){
         for (StreetCell streetCell : streetCellList) {
-            StreetCellDrawing streetCellDrawing = streetCell.getStreetCellDrawing();
-            if (streetCellDrawing.isBegin() && !streetCellDrawing.isHasCar()) {
-                return new CarThread(streetCell,streetCellDrawing.getxPos(), streetCellDrawing.getyPos(),streetCellDrawing.getType());
+            if (streetCell.isBegin() && !streetCell.hasCar()) {
+                streetCell.setHasCar(true);
+                CarThread carThread =  new CarThread(streetCell,streetCell.getxPos(), streetCell.getyPos(),streetCell.getType());
+                carThread.setPathGraph(graphHashMap.get(streetCellList.indexOf(streetCell)));
+                return carThread;
             }
         }
         return null;
@@ -204,13 +224,14 @@ public class World extends JComponent {
     public void moveCars(){
 
         for (CarThread carThread : carsList) {
-            if(outOfBounds(carThread)) {
+            if(carThread.getStreetCell().isEnd()) {
                 CarThread newCar = newCar();
                 carThread.setDirection(newCar.getDirection());
                 carThread.setPosX(newCar.getPosX());
                 carThread.setPosY(newCar.getPosX());
                 carThread.setCarDrawing(newCar.getCarDrawing());
                 carThread.setStreetCell(newCar.getStreetCell());
+                carThread.setPathGraph(newCar.gePathGraph());
                 continue;
             }
             carThread.setGraphics2D(this.graphics2D);
@@ -220,11 +241,130 @@ public class World extends JComponent {
         }
     }
 
-    public boolean outOfBounds(CarThread carThread){
-        if (carThread.getPosX() < 0 || carThread.getPosX() > width)
-            return true;
-        if (carThread.getPosY() < 0 || carThread.getPosY() > height)
-            return true;
-        return false;
+//    public boolean outOfBounds(CarThread carThread){
+//        if (carThread.getPosX() < 0 || carThread.getPosX() > width)
+//            return true;
+//        if (carThread.getPosY() < 0 || carThread.getPosY() > height)
+//            return true;
+//        return false;
+//    }
+
+    public StreetCell findStreetCell(int xPos, int yPos){
+        for(StreetCell streetCell : streetCellList){
+            if (streetCell.getxPos() == xPos && streetCell.getyPos()== yPos) {
+                return streetCell;
+            }
+        }
+        return null;
     }
+
+    private void makeGraphs(){
+        this.graphHashMap = new HashMap<>();
+        Graph<StreetCell,DefaultEdge> g;
+        for (int i = 0; i < streetCellList.size(); i++) {
+            StreetCell currentCell = streetCellList.get(i);
+
+            //skip empty ones
+            if (currentCell.getType() == 0)
+                continue;
+
+//            //skip what is not on the borders
+//            if ( (i % (columns-1) != 0) && (i > columns) && (i % (columns) != 0) && i < streetCellList.size()-columns)
+//                continue;
+
+            // initiate the graph
+            if (currentCell.isBegin()) {
+                g = new SimpleDirectedGraph<>(DefaultEdge.class);
+                g.addVertex(currentCell);
+                graphHashMap.put(i,g);
+            }
+        }
+
+        graphHashMap.forEach((key, value)->{
+            System.out.println(key + " - " + value.toString());
+            setNextEdge(key,value);
+        });
+
+        System.out.println(graphHashMap.size());
+        System.out.println(graphHashMap.get(columns/2-1));
+        System.out.println(graphHashMap.get(columns*lines/2));
+        System.out.println(graphHashMap.get(columns*lines/2-1));
+        System.out.println(graphHashMap.get(streetCellList.size()-(columns/2)));
+
+    }
+
+    private int setNextEdge(int i, Graph g){
+        StreetCell currentCell;
+
+        if (i >= 0)
+            currentCell = streetCellList.get(i);
+        else
+            return -1;
+
+        if (currentCell.isEnd())
+            return -1;
+
+        int nextCellIndex = 0;
+        int nextCellAltIndex = 0;
+        StreetCell nextCell = null;
+        StreetCell nextCellAlt = null;
+        if (currentCell.getType() == Integer.parseInt(StreetCellEnum.DIREITA.getValue())){
+            nextCellIndex = i+1;
+            nextCell = streetCellList.get(nextCellIndex);
+        } else if (currentCell.getType() == Integer.parseInt(StreetCellEnum.ESQUERDA.getValue())){
+            nextCellIndex = i-1;
+            nextCell = streetCellList.get(nextCellIndex);
+        } else if (currentCell.getType() == Integer.parseInt(StreetCellEnum.CIMA.getValue())
+                || currentCell.getType() == Integer.parseInt(StreetCellEnum.CRUZA_CIMA.getValue())){
+            nextCellIndex = i-columns;
+            nextCell = streetCellList.get(nextCellIndex);
+        } else if (currentCell.getType() == Integer.parseInt(StreetCellEnum.BAIXO.getValue())
+                || currentCell.getType() == Integer.parseInt(StreetCellEnum.CRUZA_BAIXO.getValue())){
+            nextCellIndex = i+columns;
+            nextCell = streetCellList.get(nextCellIndex);
+        }else if (currentCell.getType() == Integer.parseInt(StreetCellEnum.CRUZA_BAIXO_ESQUERDA.getValue())){
+            nextCellIndex = i+columns;
+            nextCellAltIndex = i-1;
+            nextCell    = streetCellList.get(nextCellIndex);
+            nextCellAlt = streetCellList.get(nextCellAltIndex);
+        } else if (currentCell.getType() == Integer.parseInt(StreetCellEnum.CRUZA_BAIXO_DIREITA.getValue())){
+            nextCellIndex = i+columns;
+            nextCellAltIndex = i+1;
+            nextCell    = streetCellList.get(nextCellIndex);
+            nextCellAlt = streetCellList.get(nextCellAltIndex);
+        }else if (currentCell.getType() == Integer.parseInt(StreetCellEnum.CRUZA_CIMA_ESQUERDA.getValue())){
+            nextCellIndex = i-columns;
+            nextCellAltIndex = i-1;
+            nextCell    = streetCellList.get(nextCellIndex);
+            nextCellAlt = streetCellList.get(nextCellAltIndex);
+        } else if (currentCell.getType() == Integer.parseInt(StreetCellEnum.CRUZA_CIMA_DIREITA.getValue())){
+            nextCellIndex = i-columns;
+            nextCellAltIndex = i+1;
+            nextCell    = streetCellList.get(nextCellIndex);
+            nextCellAlt = streetCellList.get(nextCellAltIndex);
+        }
+
+        if (nextCell == null && nextCellAlt == null)
+            return -1;
+
+        if (nextCell != null) {
+            g.addVertex(nextCell);
+            g.addEdge(currentCell, nextCell);
+            if (!nextCell.isEnd())
+                return setNextEdge(setNextEdge(nextCellIndex,g),g);
+            else
+                return -1;
+        }
+        if (nextCellAlt != null) {
+            g.addVertex(nextCellAlt);
+            g.addEdge(currentCell, nextCellAlt);
+            if (!nextCellAlt.isEnd())
+                return setNextEdge(setNextEdge(nextCellAltIndex,g),g);
+            else
+                return -1;
+        }
+
+        return -1;
+    }
+
 }

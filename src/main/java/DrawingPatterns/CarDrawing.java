@@ -9,11 +9,13 @@ public class CarDrawing {
     private int xPos;
     private int yPos;
     private int scale;
+    private Color color;
 
-    public CarDrawing(int xPos, int yPos, int scale) {
+    public CarDrawing(int xPos, int yPos, int scale, Color color) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.scale = scale;
+        this.color = color;
     }
 
     public void draw(Graphics2D graphics2D){
@@ -23,7 +25,7 @@ public class CarDrawing {
         Ellipse2D.Double wheel3    = new Ellipse2D.Double(xPos + 8,yPos + 6 ,scale/4 ,scale/5);
         Ellipse2D.Double wheel4    = new Ellipse2D.Double(xPos + 18,yPos + 6 ,scale/4 ,scale/5);
 
-        graphics2D.setColor(Color.RED);
+        graphics2D.setColor(color);
         graphics2D.fill(carBody);
 
         graphics2D.setColor(Color.BLACK);
