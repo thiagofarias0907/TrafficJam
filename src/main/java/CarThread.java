@@ -36,33 +36,34 @@ public class CarThread implements Runnable {
     @Override
     public void run() {
 
-        synchronized (Thread.currentThread()) {
-            try {
-                Thread.currentThread().wait(20);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        while (!this.getStreetCell().isEnd()) {
+            synchronized (Thread.currentThread()) {
+                try {
+                    Thread.currentThread().wait(new Random().nextInt(100)+50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            StreetCell vertexCell = this.pathGraph.vertexSet().stream().filter((vertex) -> vertex.equals(this.streetCell)).findAny().get();
+            Set<DefaultEdge> edges = this.pathGraph.edgesOf(vertexCell);
+
+            int pathOption = edges.size() - 1;
+            if (edges.size() > 2) {
+                pathOption = (new Random()).nextInt(2) + 1;
+            }
+            StreetCell destinationCell = this.pathGraph.getEdgeTarget((DefaultEdge) edges.toArray()[pathOption]);
+            if (!destinationCell.hasCar()) {
+                this.posX = destinationCell.getxPos();
+                this.posY = destinationCell.getyPos();
+                this.streetCell.setHasCar(false);
+                this.streetCell = destinationCell;
+                this.streetCell.setHasCar(true);
+                this.carDrawing.setxPos(posX);
+                this.carDrawing.setyPos(posY);
+                this.carDrawing.draw(this.graphics2D);
             }
         }
-
-        StreetCell vertexCell  = this.pathGraph.vertexSet().stream().filter((vertex) -> vertex.equals(this.streetCell)).findAny().get();
-        Set<DefaultEdge> edges = this.pathGraph.edgesOf(vertexCell);
-
-        int pathOption = edges.size()-1;
-        if (edges.size() > 2) {
-            pathOption = (new Random()).nextInt(2)+1;
-        }
-        StreetCell destinationCell = this.pathGraph.getEdgeTarget((DefaultEdge) edges.toArray()[pathOption]);
-        if (!destinationCell.hasCar()) {
-            this.posX = destinationCell.getxPos();
-            this.posY = destinationCell.getyPos();
-            this.streetCell.setHasCar(false);
-            this.streetCell = destinationCell;
-            this.streetCell.setHasCar(true);
-            this.carDrawing.setxPos(posX);
-            this.carDrawing.setyPos(posY);
-            this.carDrawing.draw(this.graphics2D);
-        }
-
     }
 
     public CarDrawing getCarDrawing() {

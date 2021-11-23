@@ -93,11 +93,27 @@ public class World extends JComponent {
         this.graphics2D = graphics2D;
         //draw street and cars
         streetCellList.forEach( streetCell ->{
+//            if (streetCell.hasCar())
+//               streetCell.getStreetCellDrawing().setColor(streetCell.getStreetCellDrawing().getColor().darker());
             streetCell.getStreetCellDrawing().draw(graphics2D);
         });
-        carsList.forEach(car ->{
-            car.setGraphics2D(graphics2D);
-            car.getCarDrawing().draw(graphics2D);
+        carsList.forEach(carThread ->{
+            if(carThread.getStreetCell().isEnd()) {
+                carThread.getStreetCell().setHasCar(false);
+                CarThread newCar = newCar();
+                carThread.setDirection(newCar.getDirection());
+                carThread.setPosX(newCar.getPosX());
+                carThread.setPosY(newCar.getPosX());
+                carThread.setCarDrawing(newCar.getCarDrawing());
+                carThread.setStreetCell(newCar.getStreetCell());
+                carThread.setPathGraph(newCar.gePathGraph());
+                Thread thread = new Thread(carThread);
+                thread.start();
+            } else {
+
+                carThread.setGraphics2D(graphics2D);
+                carThread.getCarDrawing().draw(graphics2D);
+            }
         });
 
     }
@@ -221,19 +237,19 @@ public class World extends JComponent {
     public void moveCars(){
 
         for (CarThread carThread : carsList) {
-            if(carThread.getStreetCell().isEnd()) {
-                carThread.getStreetCell().setHasCar(false);
-                CarThread newCar = newCar();
-                carThread.setDirection(newCar.getDirection());
-                carThread.setPosX(newCar.getPosX());
-                carThread.setPosY(newCar.getPosX());
-                carThread.setCarDrawing(newCar.getCarDrawing());
-                carThread.setStreetCell(newCar.getStreetCell());
-                carThread.setPathGraph(newCar.gePathGraph());
-                continue;
-            }
+//            if(carThread.getStreetCell().isEnd()) {
+//                carThread.getStreetCell().setHasCar(false);
+//                CarThread newCar = newCar();
+//                carThread.setDirection(newCar.getDirection());
+//                carThread.setPosX(newCar.getPosX());
+//                carThread.setPosY(newCar.getPosX());
+//                carThread.setCarDrawing(newCar.getCarDrawing());
+//                carThread.setStreetCell(newCar.getStreetCell());
+//                carThread.setPathGraph(newCar.gePathGraph());
+//                continue;
+//            }
             carThread.setGraphics2D(this.graphics2D);
-            carThread.run();
+//            carThread.run();
             Thread thread = new Thread(carThread);
             thread.start();
         }

@@ -13,14 +13,7 @@ public class Main {
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setVisible(true);
 
-        int count = 0;
-        while (count<10){
-            world.moveCars();
-
-//            jFrame.getContentPane().validate();
-//            jFrame.getContentPane().repaint();
-//            count++;
-        }
+        world.moveCars();
     }
 
 }

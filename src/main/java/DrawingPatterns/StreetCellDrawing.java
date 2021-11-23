@@ -30,4 +30,12 @@ public class StreetCellDrawing {
     public int getType() {
         return type;
     }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
 }
