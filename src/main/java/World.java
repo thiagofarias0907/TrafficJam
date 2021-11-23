@@ -50,7 +50,7 @@ public class World extends JComponent {
                 while (true){
                     repaint();
                     try {
-                        Thread.sleep(10);
+                        Thread.sleep(1);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -123,7 +123,7 @@ public class World extends JComponent {
      */
     private void readMapFile()  {
         streetCellList = new ArrayList<StreetCell>();
-        String file ="C:\\Users\\Thiago\\Desktop\\Malhas de Exemplo-20211110\\malha2-caso2.txt";
+        String file ="C:\\Users\\Thiago\\Desktop\\Malhas de Exemplo-20211110\\malha3-caso2.txt";
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(file));
@@ -307,6 +307,13 @@ public class World extends JComponent {
 
     }
 
+    /**
+     * Creates and edge, connecting two subsequent vertex in a graph v1 (currentCell) -> v2 (one or two option),
+     * and adding it to the graph (street/road path)
+     * @param currentCell
+     * @param g
+     * @return
+     */
     private StreetCell setNextEdge(StreetCell currentCell, Graph g){
 //        StreetCell currentCell;
         int i = streetCellList.indexOf(currentCell);
@@ -365,14 +372,22 @@ public class World extends JComponent {
         if (nextCell == null && nextCellAlt == null)
             return null;
 
-        if (nextCell != null && !g.containsVertex(nextCell)) {
-            g.addVertex(nextCell);
-            g.addEdge(currentCell, setNextEdge(nextCell, g));
+        if (nextCell != null) {
+            if (!g.containsVertex(nextCell))
+                g.addVertex(nextCell);
+            if (!g.containsEdge(currentCell, nextCell)){
+                g.addEdge(currentCell, nextCell);
+                setNextEdge(nextCell, g);
+            }
 //            return nextCell;
         }
-        if (nextCellAlt != null && !g.containsVertex(nextCellAlt)) {
-            g.addVertex(nextCellAlt);
-            g.addEdge(currentCell, setNextEdge(nextCellAlt,g));
+        if (nextCellAlt != null) {
+            if (!g.containsVertex(nextCellAlt))
+                g.addVertex(nextCellAlt);
+            if (!g.containsEdge(currentCell,nextCellAlt)){
+                g.addEdge(currentCell, nextCellAlt);
+                setNextEdge(nextCellAlt, g);
+            }
 //                return nextCellAlt;
         }
 
