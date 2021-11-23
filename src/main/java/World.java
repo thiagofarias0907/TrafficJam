@@ -1,10 +1,7 @@
 import DrawingPatterns.StreetCellDrawing;
 import Enums.StreetCellEnum;
 import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.DefaultEdgeFunction;
-import org.jgrapht.graph.SimpleDirectedGraph;
+import org.jgrapht.graph.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -110,7 +107,7 @@ public class World extends JComponent {
      */
     private void readMapFile()  {
         streetCellList = new ArrayList<StreetCell>();
-        String file ="C:\\Users\\Thiago\\Desktop\\Malhas de Exemplo-20211110\\malha1-caso1.txt";
+        String file ="C:\\Users\\Thiago\\Desktop\\Malhas de Exemplo-20211110\\malha2-caso2.txt";
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(file));
@@ -225,6 +222,7 @@ public class World extends JComponent {
 
         for (CarThread carThread : carsList) {
             if(carThread.getStreetCell().isEnd()) {
+                carThread.getStreetCell().setHasCar(false);
                 CarThread newCar = newCar();
                 carThread.setDirection(newCar.getDirection());
                 carThread.setPosX(newCar.getPosX());
@@ -249,14 +247,14 @@ public class World extends JComponent {
 //        return false;
 //    }
 
-    public StreetCell findStreetCell(int xPos, int yPos){
-        for(StreetCell streetCell : streetCellList){
-            if (streetCell.getxPos() == xPos && streetCell.getyPos()== yPos) {
-                return streetCell;
-            }
-        }
-        return null;
-    }
+//    public StreetCell findStreetCell(int xPos, int yPos){
+//        for(StreetCell streetCell : streetCellList){
+//            if (streetCell.getxPos() == xPos && streetCell.getyPos()== yPos) {
+//                return streetCell;
+//            }
+//        }
+//        return null;
+//    }
 
     private void makeGraphs(){
         this.graphHashMap = new HashMap<>();
@@ -274,7 +272,7 @@ public class World extends JComponent {
 
             // initiate the graph
             if (currentCell.isBegin()) {
-                g = new SimpleDirectedGraph<>(DefaultEdge.class);
+                g = new DirectedMultigraph<>(DefaultEdge.class);
                 g.addVertex(currentCell);
                 graphHashMap.put(i,g);
             }
@@ -282,7 +280,7 @@ public class World extends JComponent {
 
         graphHashMap.forEach((key, value)->{
             System.out.println(key + " - " + value.toString());
-            setNextEdge(key,value);
+            setNextEdge((StreetCell) value.vertexSet().toArray()[0],value);
         });
 
         System.out.println(graphHashMap.size());
@@ -293,16 +291,20 @@ public class World extends JComponent {
 
     }
 
-    private int setNextEdge(int i, Graph g){
-        StreetCell currentCell;
+    private StreetCell setNextEdge(StreetCell currentCell, Graph g){
+//        StreetCell currentCell;
+        int i = streetCellList.indexOf(currentCell);
 
-        if (i >= 0)
-            currentCell = streetCellList.get(i);
-        else
-            return -1;
+//        if (i >= 0)
+//            currentCell = streetCellList.get(i);
+//        else
+//            return -1;
+        if (i< 0)
+            return null;
 
+        //break the loop when reaching the end
         if (currentCell.isEnd())
-            return -1;
+            return currentCell;
 
         int nextCellIndex = 0;
         int nextCellAltIndex = 0;
@@ -345,26 +347,20 @@ public class World extends JComponent {
         }
 
         if (nextCell == null && nextCellAlt == null)
-            return -1;
+            return null;
 
-        if (nextCell != null) {
+        if (nextCell != null && !g.containsVertex(nextCell)) {
             g.addVertex(nextCell);
-            g.addEdge(currentCell, nextCell);
-            if (!nextCell.isEnd())
-                return setNextEdge(setNextEdge(nextCellIndex,g),g);
-            else
-                return -1;
+            g.addEdge(currentCell, setNextEdge(nextCell, g));
+//            return nextCell;
         }
-        if (nextCellAlt != null) {
+        if (nextCellAlt != null && !g.containsVertex(nextCellAlt)) {
             g.addVertex(nextCellAlt);
-            g.addEdge(currentCell, nextCellAlt);
-            if (!nextCellAlt.isEnd())
-                return setNextEdge(setNextEdge(nextCellAltIndex,g),g);
-            else
-                return -1;
+            g.addEdge(currentCell, setNextEdge(nextCellAlt,g));
+//                return nextCellAlt;
         }
 
-        return -1;
+        return currentCell;
     }
 
 }

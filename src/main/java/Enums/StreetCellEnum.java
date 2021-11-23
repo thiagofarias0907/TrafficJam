@@ -14,7 +14,7 @@ public enum StreetCellEnum {
           CRUZA_ESQUERDA("8", new Color(180,180,180),"Cruzamento Esquerda"),
       CRUZA_CIMA_DIREITA("9", new Color(180,180,180),"Cruzamento Cima e Direita"),
      CRUZA_CIMA_ESQUERDA("10",new Color(180,180,180),"Cruzamento Cima e Esquerda"),
-     CRUZA_BAIXO_DIREITA("11",new Color(180,180,180),"Cruzamento Direita e Baixo"),
+     CRUZA_BAIXO_DIREITA("11",new Color(180,180,180),"Cruzamento Baixo e Direita"),
     CRUZA_BAIXO_ESQUERDA("12",new Color(180,180,180),"Cruzamento Baixo e Esquerda"),
     ;
     String value;

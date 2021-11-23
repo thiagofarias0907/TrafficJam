@@ -38,7 +38,7 @@ public class CarThread implements Runnable {
 
         synchronized (Thread.currentThread()) {
             try {
-                Thread.currentThread().wait(200);
+                Thread.currentThread().wait(20);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -46,7 +46,12 @@ public class CarThread implements Runnable {
 
         StreetCell vertexCell  = this.pathGraph.vertexSet().stream().filter((vertex) -> vertex.equals(this.streetCell)).findAny().get();
         Set<DefaultEdge> edges = this.pathGraph.edgesOf(vertexCell);
-        StreetCell destinationCell = this.pathGraph.getEdgeTarget((DefaultEdge) edges.toArray()[edges.toArray().length-1]);
+
+        int pathOption = edges.size()-1;
+        if (edges.size() > 2) {
+            pathOption = (new Random()).nextInt(2)+1;
+        }
+        StreetCell destinationCell = this.pathGraph.getEdgeTarget((DefaultEdge) edges.toArray()[pathOption]);
         if (!destinationCell.hasCar()) {
             this.posX = destinationCell.getxPos();
             this.posY = destinationCell.getyPos();
