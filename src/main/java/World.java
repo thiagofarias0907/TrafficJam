@@ -333,10 +333,12 @@ public class World extends JComponent {
         int nextCellAltIndex = 0;
         StreetCell nextCell = null;
         StreetCell nextCellAlt = null;
-        if (currentCell.getType() == Integer.parseInt(StreetCellEnum.DIREITA.getValue())){
+        if (currentCell.getType() == Integer.parseInt(StreetCellEnum.DIREITA.getValue())
+         || currentCell.getType() == Integer.parseInt(StreetCellEnum.CRUZA_DIREITA.getValue())){
             nextCellIndex = i+1;
             nextCell = streetCellList.get(nextCellIndex);
-        } else if (currentCell.getType() == Integer.parseInt(StreetCellEnum.ESQUERDA.getValue())){
+        } else if (currentCell.getType() == Integer.parseInt(StreetCellEnum.ESQUERDA.getValue())
+                || currentCell.getType() == Integer.parseInt(StreetCellEnum.CRUZA_ESQUERDA.getValue())){
             nextCellIndex = i-1;
             nextCell = streetCellList.get(nextCellIndex);
         } else if (currentCell.getType() == Integer.parseInt(StreetCellEnum.CIMA.getValue())

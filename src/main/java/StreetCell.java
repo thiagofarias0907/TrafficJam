@@ -1,6 +1,7 @@
 import DrawingPatterns.StreetCellDrawing;
 
 import java.util.Objects;
+import java.util.concurrent.Semaphore;
 
 public class StreetCell {
 
@@ -12,6 +13,8 @@ public class StreetCell {
     private int type;
     private StreetCellDrawing streetCellDrawing;
 
+    private Semaphore mutex = new Semaphore(1);
+
     public StreetCell(int xPos, int yPos, boolean hasCar, boolean isBegin, boolean isEnd, int type, StreetCellDrawing streetCellDrawing) {
         this.xPos = xPos;
         this.yPos = yPos;
@@ -22,7 +25,7 @@ public class StreetCell {
         this.streetCellDrawing = streetCellDrawing;
     }
 
-    public boolean hasCar() {
+    public synchronized boolean hasCar() {
         return hasCar;
     }
 
@@ -35,7 +38,13 @@ public class StreetCell {
     }
 
     public void setHasCar(boolean hasCar) {
+        try {
+            mutex.acquire();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         this.hasCar = hasCar;
+        mutex.release();
     }
 
     public int getxPos() {
