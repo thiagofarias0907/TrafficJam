@@ -7,5 +7,5 @@ import java.util.HashMap;
 
 public interface AddPathsStrategy {
 
-    void AddPaths(ArrayList<Cell> paths, HashMap<String, Cell> grid, int line, int column, Cell cell);
+    void addPaths(ArrayList<Cell> paths, HashMap<String, Cell> grid, int line, int column, Cell cell);
 }

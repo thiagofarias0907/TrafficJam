@@ -138,8 +138,8 @@ public class Instance {
             final int line = Integer.parseInt(String.valueOf(key.charAt(0)));
             final int column = Integer.parseInt(String.valueOf(key.charAt(2)));
 
-            AddPathsStrategy addPathsStrategy;
-
+            AddPathsStrategy addPathsStrategy= null;
+            ArrayList<Cell> paths = new ArrayList<>();
 
             switch (cell.getDirection()){
                 case UP -> {
@@ -167,6 +167,10 @@ public class Instance {
                 break;
                 }
 
+            }
+
+            if(addPathsStrategy!=null){
+                addPathsStrategy.addPaths(paths, grid, line, column, cell);
             }
         }
     }
