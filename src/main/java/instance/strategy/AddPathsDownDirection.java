@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class AddPathsDownDirection implements AddPathsStrategy {
 
     @Override
-    public void addPaths(ArrayList<Cell> paths, HashMap<String, Cell> grid, int line, int column, Cell cell) {
+    public void addPaths(ArrayList<Cell> paths, HashMap<String, Cell> grid, int line, int column, Cell cell, int lineCount, int RowCount) {
 
 
         Cell downCell = grid.get((line+1)+" "+column);
@@ -20,7 +20,7 @@ public class AddPathsDownDirection implements AddPathsStrategy {
         Cell downLeftCell = grid.get((line+1) +" "+ (column-1));
         Cell downRightCell =grid.get((line+1) +" "+ (column+1));
 
-        if(grid.containsKey(line+1+" "+column)){
+
 
             if(rightCell!= null && (rightCell.getDirection()== Direction.RIGHT || rightCell.getDirection()== Direction.UNDEF)){
                 paths.add(rightCell);
@@ -42,7 +42,11 @@ public class AddPathsDownDirection implements AddPathsStrategy {
                 paths.add(downCell);
             }
 
-        }
+            if(downCell==null){
+                paths.add(grid.get(0+" "+column));
+            }
+
+
 
         cell.setPaths(paths.toArray(new Cell[0]));
     }

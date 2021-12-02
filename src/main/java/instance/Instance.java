@@ -170,8 +170,7 @@ public class Instance {
             }
 
             if(addPathsStrategy!=null){
-                addPathsStrategy.addPaths(paths, grid, line, column, cell);
-                System.out.println(cell);
+                addPathsStrategy.addPaths(paths, grid, line, column, cell, linesCount, columnsCount);
             }
         }
     }

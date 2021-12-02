@@ -8,7 +8,7 @@ import java.util.HashMap;
 public class AddPathsRightDirection implements AddPathsStrategy {
 
     @Override
-    public void addPaths(ArrayList<Cell> paths, HashMap<String, Cell> grid, int x, int y, Cell cell) {
+    public void addPaths(ArrayList<Cell> paths, HashMap<String, Cell> grid, int x, int y, Cell cell, int lineCount, int RowCount) {
 
     }
 }
