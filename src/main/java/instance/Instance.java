@@ -171,6 +171,7 @@ public class Instance {
 
             if(addPathsStrategy!=null){
                 addPathsStrategy.addPaths(paths, grid, line, column, cell);
+                System.out.println(cell);
             }
         }
     }
@@ -185,8 +186,8 @@ public class Instance {
             cellDrawingList.add(cell.getCellDrawing());
         }
 
-        //todo: set cells paths
         setCellPaths(grid);
+
         WorldDrawable worldDrawable = new WorldDrawable(height, width, roadColWidth, roadLineWidth, cellDrawingList);
 
         //todo: set list of cars
