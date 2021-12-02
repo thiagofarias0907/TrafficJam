@@ -4,7 +4,6 @@ import instance.world.cells.Cell;
 import instance.world.cells.Direction;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 
@@ -23,11 +22,11 @@ public class AddPathsDownDirection implements AddPathsStrategy {
 
         if(grid.containsKey(line+1+" "+column)){
 
-            if(rightCell!= null && rightCell.getDirection()== Direction.RIGHT){
+            if(rightCell!= null && (rightCell.getDirection()== Direction.RIGHT || rightCell.getDirection()== Direction.UNDEF)){
                 paths.add(rightCell);
             }
 
-            if(leftCell!= null && leftCell.getDirection()== Direction.LEFT){
+            if(leftCell!= null && (leftCell.getDirection()== Direction.LEFT || leftCell.getDirection()== Direction.UNDEF)){
                 paths.add(leftCell);
             }
 
