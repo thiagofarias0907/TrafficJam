@@ -5,6 +5,7 @@ import instance.world.World;
 import instance.world.WorldDrawable;
 import instance.world.cells.Cell;
 import instance.world.cells.CellDrawing;
+import instance.world.cells.CrossingCell;
 import instance.world.cells.Direction;
 import instance.world.cells.State.DangerZoneHandler;
 
@@ -118,6 +119,7 @@ public class Instance {
                     break;
 
                     default:
+                        cell = new CrossingCell(i+" "+j,dangerZoneHandler,cellDrawing, Integer.parseInt(lineElements[i]));
                         cell.setDirection(Direction.UNDEF);
                         cell.getCellDrawing().setType(Direction.UNDEF);
 
