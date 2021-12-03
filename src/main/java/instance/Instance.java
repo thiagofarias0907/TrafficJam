@@ -135,8 +135,10 @@ public class Instance {
         for (Cell cell : grid.values()) {
 
             String key = cell.getId();
-            final int line = Integer.parseInt(String.valueOf(key.charAt(0)));
-            final int column = Integer.parseInt(String.valueOf(key.charAt(2)));
+            final String[] valuesInKey = key.split("\s");
+            final int line = Integer.parseInt(valuesInKey[0]);
+            final int column = Integer.parseInt(valuesInKey[1]);
+
 
             AddPathsStrategy addPathsStrategy= null;
             ArrayList<Cell> paths = new ArrayList<>();
