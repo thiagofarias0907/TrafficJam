@@ -16,8 +16,6 @@ public class AddPathsLeftDirection implements AddPathsStrategy {
         Cell downLeftCell = grid.get((line-1) +" "+ (column-1));
         Cell upLeftCell =grid.get((line+1) +" "+ (column-1));
 
-        System.out.println(column);
-
 
 
         if(upCell!= null && (upCell.getDirection() == Direction.UP || upCell.getDirection() == Direction.UNDEF)){

@@ -111,10 +111,12 @@ public class Instance {
                         cell.setDirection(Direction.DOWN);
                         cell.getCellDrawing().setType(Direction.DOWN);
                     break;
+
                     case "4":
                         cell.setDirection(Direction.LEFT);
                         cell.getCellDrawing().setType(Direction.LEFT);
                     break;
+
                     default:
                         cell.setDirection(Direction.UNDEF);
                         cell.getCellDrawing().setType(Direction.UNDEF);
@@ -175,6 +177,9 @@ public class Instance {
                 addPathsStrategy.addPaths(paths, grid, line, column, cell, linesCount, columnsCount);
             }
         }
+
+
+
     }
 
     private void makeWorld(){
