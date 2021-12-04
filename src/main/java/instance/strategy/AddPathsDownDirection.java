@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-//todo: crossing (undef directions)
 public class AddPathsDownDirection implements AddPathsStrategy {
 
     @Override

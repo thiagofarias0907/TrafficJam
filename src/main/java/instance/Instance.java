@@ -119,7 +119,7 @@ public class Instance {
                     break;
 
                     default:
-                        cell = new CrossingCell(i+" "+j,dangerZoneHandler,cellDrawing, Integer.parseInt(lineElements[i]));
+                        cell = new CrossingCell(i+" "+j,dangerZoneHandler,cellDrawing, Integer.parseInt(lineElements[j]));
                         cell.setDirection(Direction.UNDEF);
                         cell.getCellDrawing().setType(Direction.UNDEF);
 
