@@ -29,11 +29,11 @@ public class AddPathsDownDirection implements AddPathsStrategy {
                 paths.add(leftCell);
             }
 
-            if(leftCell!= null && leftCell.getDirection()==Direction.DOWN && downLeftCell.getDirection()== Direction.DOWN){ //pista linear dupla
+            if(leftCell!= null && downLeftCell!=null &&  leftCell.getDirection()==Direction.DOWN && downLeftCell.getDirection()== Direction.DOWN){
                 paths.add(downLeftCell);
             }
 
-            if(rightCell!= null && rightCell.getDirection()==Direction.DOWN && downRightCell.getDirection()== Direction.DOWN){ //pista linear dupla
+            if( rightCell!= null && downRightCell!=null && rightCell.getDirection()==Direction.DOWN && downRightCell.getDirection()== Direction.DOWN){
                 paths.add(downRightCell);
             }
 

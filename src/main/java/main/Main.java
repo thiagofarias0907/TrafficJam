@@ -16,7 +16,7 @@ public class Main {
 
         DangerZoneHandler dangerZoneHandler = new MyMutexBlocker();
 
-        Instance instance = new Instance(600, 600, dangerZoneHandler, "C:\\Users\\alcgo\\OneDrive\\Documentos\\GitHub\\TrafficJam\\src\\main\\resources\\malha1-caso1.txt", 5, 10000);
+        Instance instance = new Instance(600, 600, dangerZoneHandler, "C:\\Users\\alcgo\\OneDrive\\Documentos\\GitHub\\TrafficJam\\src\\main\\resources\\malha1-caso2.txt", 5, 10000);
 
         JFrame jFrame = new JFrame();
         jFrame.setSize(800,800);
