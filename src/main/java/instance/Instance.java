@@ -28,6 +28,8 @@ import java.util.List;
 
 public class Instance {
 
+    private static Instance instance;
+
     private float height;
     private float width;
 
@@ -61,6 +63,7 @@ public class Instance {
         setRoadLineWidth();
         makeWorld();
 
+        instance = this;
     }
 
     private void setFileLines(String path) {
@@ -281,12 +284,14 @@ public class Instance {
     private LinkedList<Car> makeVehicles(){
         LinkedList<Car> cars = new LinkedList<>();
         for(int i=0;i<carsQuantity;i++){
+            Random rand = new Random();
 
-            int r = (int) (0xff * Math.random());
-            int g = (int) (0xff * Math.random());
-            int b = (int) (0xff * Math.random());
+            int r = rand.nextInt(255);
+            int g = rand.nextInt(255);
+            int b = rand.nextInt(255);
 
             CarDrawing carDrawing = new CarDrawing( 25, new Color(r, g, b));
+
         Car car = new Car(carDrawing,vehiclesSpeedInMs);
         cars.add(car);
         }
@@ -315,6 +320,17 @@ public class Instance {
         world = new World(worldDrawable, grid, cars, getEnterCells(grid), getExitCells(grid));
     }
 
+    public static Instance getInstance(){
+        return instance;
+    }
+
+    public float getRoadColWidth() {
+        return roadColWidth;
+    }
+
+    public float getRoadLineWidth() {
+        return roadLineWidth;
+    }
 
     public World getWorld() {
         return world;

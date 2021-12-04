@@ -1,8 +1,6 @@
 package instance.world.cars;
 
 import instance.world.cells.Cell;
-
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Car implements Runnable{
@@ -27,7 +25,13 @@ public class Car implements Runnable{
                 cell.getDangerZoneHandler().enterTheDangerZone();
                 currentRoad.getDangerZoneHandler().exitedDangerZone();
                 currentRoad = cell;
-                return true;
+
+                 final String[] valuesInKey = currentRoad.getId().split("\s");
+
+                drawing.setxPos(Integer.parseInt(valuesInKey[0]));
+                drawing.setyPos(Integer.parseInt(valuesInKey[1]));
+
+            return true;
 
 
         }
@@ -41,7 +45,6 @@ public class Car implements Runnable{
 
       while (true){
           moveToTheNextRoad();
-//          drawing.draw();
       }
 
     }
