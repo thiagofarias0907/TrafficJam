@@ -32,11 +32,11 @@ public class AddPathsRightDirection implements AddPathsStrategy {
             paths.add(rightCell);
         }
 
-        if(downRightCell != null && upCell.getDirection() == Direction.RIGHT && upRightCell.getDirection() == Direction.RIGHT){
+        if(downCell!=null && upRightCell != null && upCell.getDirection() == Direction.RIGHT && upRightCell.getDirection() == Direction.RIGHT){
             paths.add(upRightCell);
         }
 
-        if(upRightCell != null && downCell.getDirection() == Direction.RIGHT&& downRightCell.getDirection() == Direction.RIGHT){
+        if( downCell!=null && downRightCell != null && downCell.getDirection() == Direction.RIGHT&& downRightCell.getDirection() == Direction.RIGHT){
             paths.add(downRightCell);
         }
 
