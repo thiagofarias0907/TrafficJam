@@ -30,11 +30,11 @@ public class AddPathsLeftDirection implements AddPathsStrategy {
             paths.add(leftCell);
         }
 
-        if(downLeftCell != null && upCell.getDirection() == Direction.LEFT && upLeftCell.getDirection() == Direction.LEFT){
+        if(upCell!=null && upLeftCell != null && upCell.getDirection() == Direction.LEFT && upLeftCell.getDirection() == Direction.LEFT){
             paths.add(upLeftCell);
         }
 
-        if(upLeftCell != null && downCell.getDirection() == Direction.LEFT&& downLeftCell.getDirection() == Direction.LEFT){
+        if(downCell!= null && downLeftCell != null && downCell.getDirection() == Direction.LEFT&& downLeftCell.getDirection() == Direction.LEFT){
             paths.add(downLeftCell);
         }
 
