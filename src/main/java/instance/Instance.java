@@ -15,6 +15,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+
+/*
+* This class is responsible for creating and having the instance of the world.
+* It can be optimized, but there is no need to do it right now because it is not being executed in real time,
+* and the timing for accomplishing its requirements are acceptable.
+* */
+
 public class Instance {
 
     private float height;
@@ -185,8 +192,85 @@ public class Instance {
             }
         }
 
+    }
+
+    private List<Cell> getEnterCells(HashMap<String, Cell> grid)
+    {
+        HashSet<Cell> cellList = new HashSet<>();
+
+        for(int i=0; i<columnsCount-1;i++){
+
+            Cell cell = grid.get(0+" "+i);
+
+            if(cell!=null && cell.getDirection()==Direction.DOWN){
+                cellList.add(cell);
+            }
+
+            cell = grid.get(linesCount-1+" "+i);
+
+            if(cell!=null && cell.getDirection()==Direction.UP){
+                cellList.add(cell);
+            }
+
+        }
 
 
+        for(int i=0; i<linesCount-1;i++){
+
+            Cell cell = grid.get(i+" "+0);
+
+            if(cell!=null && cell.getDirection()==Direction.RIGHT){
+                cellList.add(cell);
+            }
+
+            cell = grid.get(i+" "+(columnsCount-1));
+
+            if(cell!=null  && cell.getDirection()==Direction.LEFT){
+                cellList.add(cell);
+            }
+        }
+
+
+        return cellList.stream().toList();
+    }
+
+    private  List<Cell>  getExitCells(HashMap<String, Cell> grid){
+
+        HashSet<Cell> cellList = new HashSet<>();
+
+        for(int i=0; i<columnsCount-1;i++){
+
+            Cell cell = grid.get(0+" "+i);
+
+            if(cell!=null && cell.getDirection()==Direction.UP){
+                cellList.add(cell);
+            }
+
+            cell = grid.get(linesCount-1+" "+i);
+
+            if(cell!=null && cell.getDirection()==Direction.DOWN){
+                cellList.add(cell);
+            }
+
+        }
+
+
+        for(int i=0; i<linesCount-1;i++){
+
+            Cell cell = grid.get(i+" "+0);
+
+            if(cell!=null && cell.getDirection()==Direction.LEFT){
+                cellList.add(cell);
+            }
+
+            cell = grid.get(i+" "+(columnsCount-1));
+
+            if(cell!=null  && cell.getDirection()==Direction.RIGHT){
+                cellList.add(cell);
+            }
+        }
+
+        return cellList.stream().toList();
     }
 
     private void makeWorld(){
@@ -200,10 +284,9 @@ public class Instance {
         }
 
         setCellPaths(grid);
-
         WorldDrawable worldDrawable = new WorldDrawable(height, width, roadColWidth, roadLineWidth, cellDrawingList);
 
-        world = new World(worldDrawable, grid, null);
+        world = new World(worldDrawable, grid, null, getEnterCells(grid), getExitCells(grid));
     }
 
 
