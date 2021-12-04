@@ -11,11 +11,10 @@ public class Car implements Runnable{
     private Cell currentRoad;
     private long speedInMs;
 
-    public Car(long speed) {
-        this.speedInMs = speed;
+    public Car(CarDrawing drawing, long speedInMs) {
+        this.drawing = drawing;
+        this.speedInMs = speedInMs;
     }
-
-
 
     public boolean moveToTheNextRoad(){
 
@@ -24,12 +23,11 @@ public class Car implements Runnable{
 
         if(cell.getDangerZoneHandler().isAvailable()){
 
-          
 //                Thread.sleep(speedInMs);
                 cell.getDangerZoneHandler().enterTheDangerZone();
                 currentRoad.getDangerZoneHandler().exitedDangerZone();
                 currentRoad = cell;
-
+                return true;
 
 
         }
@@ -43,6 +41,7 @@ public class Car implements Runnable{
 
       while (true){
           moveToTheNextRoad();
+//          drawing.draw();
       }
 
     }
@@ -53,5 +52,9 @@ public class Car implements Runnable{
 
     public void setCurrentRoad(Cell currentRoad) {
         this.currentRoad = currentRoad;
+    }
+
+    public CarDrawing getDrawing() {
+        return drawing;
     }
 }

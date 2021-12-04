@@ -1,5 +1,6 @@
 package instance.world;
 
+import instance.world.cars.CarDrawing;
 import instance.world.cells.CellDrawing;
 
 import javax.swing.*;
@@ -14,14 +15,17 @@ public class WorldDrawable extends JComponent {
     private float width;
     private float roadColWidth;
     private float roadLineWidth;
-    List<CellDrawing> cellDrawingList;
 
-    public WorldDrawable(float height, float width, float roadColWidth, float roadLineWidth, List<CellDrawing> cellDrawingList) {
+    List<CellDrawing> cellDrawingList;
+    List<CarDrawing> carDrawingList;
+
+    public WorldDrawable(float height, float width, float roadColWidth, float roadLineWidth, List<CellDrawing> cellDrawingList, List<CarDrawing> carDrawingList) {
         this.height = height;
         this.width = width;
         this.roadColWidth = roadColWidth;
         this.roadLineWidth = roadLineWidth;
         this.cellDrawingList = cellDrawingList;
+        this.carDrawingList = carDrawingList;
     }
 
     @Override
@@ -33,7 +37,10 @@ public class WorldDrawable extends JComponent {
             streetCell.draw(graphics2D);
         });
 
-
+        carDrawingList.forEach(carDrawing ->
+        {
+            carDrawing.draw(graphics2D);
+        });
     }
 
     private Graphics2D configureSceneRender(Graphics2D g) {
@@ -49,6 +56,7 @@ public class WorldDrawable extends JComponent {
         Rectangle2D.Double background =  new Rectangle2D.Double(0,0,width,height);
         graphics2D.setColor(new Color(0,0, 0));
         graphics2D.fill(background);
+
         return graphics2D;
     }
 

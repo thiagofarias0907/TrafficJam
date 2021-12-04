@@ -4,17 +4,20 @@ import instance.strategy.*;
 import instance.world.World;
 import instance.world.WorldDrawable;
 import instance.world.cars.Car;
+import instance.world.cars.CarDrawing;
 import instance.world.cells.Cell;
 import instance.world.cells.CellDrawing;
 import instance.world.cells.CrossingCell;
 import instance.world.cells.Direction;
 import instance.world.cells.State.DangerZoneHandler;
 
+import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.List;
 
 
 /*
@@ -278,7 +281,13 @@ public class Instance {
     private LinkedList<Car> makeVehicles(){
         LinkedList<Car> cars = new LinkedList<>();
         for(int i=0;i<carsQuantity;i++){
-        Car car = new Car(vehiclesSpeedInMs);
+
+            int r = (int) (0xff * Math.random());
+            int g = (int) (0xff * Math.random());
+            int b = (int) (0xff * Math.random());
+
+            CarDrawing carDrawing = new CarDrawing( 25, new Color(r, g, b));
+        Car car = new Car(carDrawing,vehiclesSpeedInMs);
         cars.add(car);
         }
         return cars;
@@ -287,17 +296,23 @@ public class Instance {
     private void makeWorld(){
 
         HashMap<String, Cell> grid = makeGrid();
+        LinkedList<Car> cars = makeVehicles();
 
         List<CellDrawing> cellDrawingList = new ArrayList<>();
+        List<CarDrawing> carDrawingList = new ArrayList<>();
 
         for(Cell cell : grid.values()){
             cellDrawingList.add(cell.getCellDrawing());
         }
 
-        setCellPaths(grid);
-        WorldDrawable worldDrawable = new WorldDrawable(height, width, roadColWidth, roadLineWidth, cellDrawingList);
+        for (Car car: cars) {
+            carDrawingList.add(car.getDrawing());
+        }
 
-        world = new World(worldDrawable, grid, makeVehicles(), getEnterCells(grid), getExitCells(grid));
+        setCellPaths(grid);
+        WorldDrawable worldDrawable = new WorldDrawable(height, width, roadColWidth, roadLineWidth, cellDrawingList, carDrawingList);
+
+        world = new World(worldDrawable, grid, cars, getEnterCells(grid), getExitCells(grid));
     }
 
 
