@@ -7,6 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Car implements Runnable{
 
+    private CarDrawing drawing;
     private Cell currentRoad;
     private long speedInMs;
 
@@ -22,9 +23,15 @@ public class Car implements Runnable{
 
 
         if(cell.getDangerZoneHandler().isAvailable()){
-            cell.getDangerZoneHandler().enterTheDangerZone();
-            currentRoad.getDangerZoneHandler().exitedDangerZone();
-            currentRoad = cell;
+
+          
+//                Thread.sleep(speedInMs);
+                cell.getDangerZoneHandler().enterTheDangerZone();
+                currentRoad.getDangerZoneHandler().exitedDangerZone();
+                currentRoad = cell;
+
+
+
         }
 
         return false;
@@ -33,12 +40,11 @@ public class Car implements Runnable{
 
     @Override
     public void run() {
-        try {
-            Thread.sleep(speedInMs);
-            moveToTheNextRoad();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+      while (true){
+          moveToTheNextRoad();
+      }
+
     }
 
     public Cell getCurrentRoad() {

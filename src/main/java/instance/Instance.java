@@ -103,7 +103,7 @@ public class Instance {
             for(int j = 0; j<lineElements.length; j++){
 
                 CellDrawing cellDrawing = new CellDrawing(j,i, roadColWidth, roadLineWidth, Direction.NONE);
-                Cell cell = new Cell(i+" "+j,dangerZoneHandler,cellDrawing);
+                Cell cell = new Cell(i+" "+j, dangerZoneHandler.clone(),cellDrawing);
 
                 switch (lineElements[j]){
                     case "0":

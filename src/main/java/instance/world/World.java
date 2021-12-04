@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public class World implements Runnable {
+public class World {
 
     private WorldDrawable drawable;
     private HashMap<String, Cell> grid;
@@ -20,16 +20,16 @@ public class World implements Runnable {
         this.cars = cars;
         this.enterPoints = enterPoints;
         this.exitPoints = exitPoints;
+
+        for (Car car: this.cars) {
+            car.setCurrentRoad(enterPoints.get(0));
+            Thread thread = new Thread(car);
+            thread.start();
+        }
     }
 
     public WorldDrawable getDrawable() {
         return drawable;
     }
 
-    @Override
-    public void run() {
-        while (true){
-            System.out.println("a");
-        }
-    }
 }

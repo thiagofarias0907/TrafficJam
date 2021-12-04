@@ -25,9 +25,6 @@ public class Main {
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jFrame.setVisible(true);
 
-        Thread thread = new Thread(instance.getWorld());
-        thread.start();
-
     }
 
 }
