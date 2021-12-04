@@ -21,19 +21,20 @@ public class Car implements Runnable{
 
         if(cell.getDangerZoneHandler().isAvailable()){
 
-//                Thread.sleep(speedInMs);
+            try {
+                Thread.sleep(500);
                 cell.getDangerZoneHandler().enterTheDangerZone();
                 currentRoad.getDangerZoneHandler().exitedDangerZone();
                 currentRoad = cell;
 
-                 final String[] valuesInKey = currentRoad.getId().split("\s");
+                final String[] valuesInKey = currentRoad.getId().split("\s");
 
-                drawing.setxPos(Integer.parseInt(valuesInKey[0]));
-                drawing.setyPos(Integer.parseInt(valuesInKey[1]));
-
+                drawing.setxPos(Integer.parseInt(valuesInKey[1]));
+                drawing.setyPos(Integer.parseInt(valuesInKey[0]));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return true;
-
-
         }
 
         return false;

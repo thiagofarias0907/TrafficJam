@@ -1,5 +1,6 @@
 package instance;
 
+import Renderer.Renderer;
 import instance.strategy.*;
 import instance.world.World;
 import instance.world.WorldDrawable;
@@ -318,6 +319,9 @@ public class Instance {
         WorldDrawable worldDrawable = new WorldDrawable(height, width, roadColWidth, roadLineWidth, cellDrawingList, carDrawingList);
 
         world = new World(worldDrawable, grid, cars, getEnterCells(grid), getExitCells(grid));
+
+        Thread thread = new Thread(new Renderer());
+        thread.start();
     }
 
     public static Instance getInstance(){

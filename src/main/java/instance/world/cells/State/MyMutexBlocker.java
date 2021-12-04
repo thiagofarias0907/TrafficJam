@@ -17,7 +17,7 @@ public class MyMutexBlocker extends DangerZoneHandler {
     @Override
     public boolean enterTheDangerZone() {
         if(super.isAvailable()){
-            super.setAvailability(false);
+//            super.setAvailability(false);
             return true;
         }
         return false;

@@ -11,6 +11,7 @@ public class World {
     private WorldDrawable drawable;
     private HashMap<String, Cell> grid;
     private LinkedList<Car> cars;
+
     private List<Cell> enterPoints;
     private List<Cell> exitPoints;
 
