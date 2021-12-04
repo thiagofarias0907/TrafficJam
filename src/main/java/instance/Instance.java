@@ -26,16 +26,21 @@ public class Instance {
     private float roadColWidth;
     private float roadLineWidth;
 
+    private int carsQuantity;
+    private float vehiclesSpeedInMs;
+
     private World world;
 
     private DangerZoneHandler dangerZoneHandler;
     private List<String> fileLines;
 
 
-    public Instance(int height, int width, DangerZoneHandler dangerZoneHandler, String path) {
+    public Instance(int height, int width, DangerZoneHandler dangerZoneHandler, String path, int carsQuantity, float vehiclesSpeedInMs) {
         this.height = height;
         this.width = width;
         this.dangerZoneHandler = dangerZoneHandler;
+        this.carsQuantity = carsQuantity;
+        this.vehiclesSpeedInMs = vehiclesSpeedInMs;
 
         setFileLines(path);
         setLinesCount();
@@ -198,7 +203,6 @@ public class Instance {
 
         WorldDrawable worldDrawable = new WorldDrawable(height, width, roadColWidth, roadLineWidth, cellDrawingList);
 
-        //todo: set list of cars
         world = new World(worldDrawable, grid, null);
     }
 
