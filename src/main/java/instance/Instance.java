@@ -35,7 +35,7 @@ public class Instance {
     private float roadLineWidth;
 
     private int carsQuantity;
-    private float vehiclesSpeedInMs;
+    private long vehiclesSpeedInMs;
 
     private World world;
 
@@ -43,7 +43,7 @@ public class Instance {
     private List<String> fileLines;
 
 
-    public Instance(int height, int width, DangerZoneHandler dangerZoneHandler, String path, int carsQuantity, float vehiclesSpeedInMs) {
+    public Instance(int height, int width, DangerZoneHandler dangerZoneHandler, String path, int carsQuantity, long vehiclesSpeedInMs) {
         this.height = height;
         this.width = width;
         this.dangerZoneHandler = dangerZoneHandler;

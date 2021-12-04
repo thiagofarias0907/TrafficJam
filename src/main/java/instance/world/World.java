@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public class World  {
+public class World implements Runnable {
 
     private WorldDrawable drawable;
     private HashMap<String, Cell> grid;
@@ -26,5 +26,10 @@ public class World  {
         return drawable;
     }
 
-
+    @Override
+    public void run() {
+        while (true){
+            System.out.println("a");
+        }
+    }
 }

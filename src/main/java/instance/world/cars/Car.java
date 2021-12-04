@@ -2,20 +2,23 @@ package instance.world.cars;
 
 import instance.world.cells.Cell;
 
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Car implements Runnable{
 
     private Cell currentRoad;
-    private float speedInMs;
+    private long speedInMs;
 
-    public Car(float speed) {
+    public Car(long speed) {
         this.speedInMs = speed;
     }
 
 
 
     public boolean moveToTheNextRoad(){
-        //todo: random the index of this path, respecting the limits of this array;
-        Cell cell = currentRoad.getPaths()[0];
+
+        Cell cell = currentRoad.getPaths()[ThreadLocalRandom.current().nextInt(0, currentRoad.getPaths().length)];
 
 
         if(cell.getDangerZoneHandler().isAvailable()){
@@ -30,7 +33,12 @@ public class Car implements Runnable{
 
     @Override
     public void run() {
-
+        try {
+            Thread.sleep(speedInMs);
+            moveToTheNextRoad();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public Cell getCurrentRoad() {
