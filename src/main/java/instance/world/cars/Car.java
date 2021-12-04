@@ -5,7 +5,13 @@ import instance.world.cells.Cell;
 public class Car implements Runnable{
 
     private Cell currentRoad;
-    private float speed;
+    private float speedInMs;
+
+    public Car(float speed) {
+        this.speedInMs = speed;
+    }
+
+
 
     public boolean moveToTheNextRoad(){
         //todo: random the index of this path, respecting the limits of this array;
@@ -25,5 +31,13 @@ public class Car implements Runnable{
     @Override
     public void run() {
 
+    }
+
+    public Cell getCurrentRoad() {
+        return currentRoad;
+    }
+
+    public void setCurrentRoad(Cell currentRoad) {
+        this.currentRoad = currentRoad;
     }
 }

@@ -3,6 +3,7 @@ package instance;
 import instance.strategy.*;
 import instance.world.World;
 import instance.world.WorldDrawable;
+import instance.world.cars.Car;
 import instance.world.cells.Cell;
 import instance.world.cells.CellDrawing;
 import instance.world.cells.CrossingCell;
@@ -273,6 +274,16 @@ public class Instance {
         return cellList.stream().toList();
     }
 
+
+    private LinkedList<Car> makeVehicles(){
+        LinkedList<Car> cars = new LinkedList<>();
+        for(int i=0;i<carsQuantity;i++){
+        Car car = new Car(vehiclesSpeedInMs);
+        cars.add(car);
+        }
+        return cars;
+    }
+
     private void makeWorld(){
 
         HashMap<String, Cell> grid = makeGrid();
@@ -286,7 +297,7 @@ public class Instance {
         setCellPaths(grid);
         WorldDrawable worldDrawable = new WorldDrawable(height, width, roadColWidth, roadLineWidth, cellDrawingList);
 
-        world = new World(worldDrawable, grid, null, getEnterCells(grid), getExitCells(grid));
+        world = new World(worldDrawable, grid, makeVehicles(), getEnterCells(grid), getExitCells(grid));
     }
 
 
