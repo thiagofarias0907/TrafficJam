@@ -8,9 +8,9 @@ import instance.world.cars.Car;
 import instance.world.cars.CarDrawing;
 import instance.world.cells.Cell;
 import instance.world.cells.CellDrawing;
-import instance.world.cells.CrossingCell;
 import instance.world.cells.Direction;
-import instance.world.cells.State.DangerZoneHandler;
+import instance.world.cells.cellTypes.CellTypes;
+import instance.world.cells.cellTypes.SynchronizedMutexCell;
 
 import java.awt.*;
 import java.io.IOException;
@@ -42,19 +42,18 @@ public class Instance {
 
     private int carsQuantity;
     private long vehiclesSpeedInMs;
-
+    CellTypes cellTypes;
     private World world;
 
-    private DangerZoneHandler dangerZoneHandler;
     private List<String> fileLines;
 
 
-    public Instance(int height, int width, DangerZoneHandler dangerZoneHandler, String path, int carsQuantity, long vehiclesSpeedInMs) {
+    public Instance(int height, int width, CellTypes cellTypes, String path, int carsQuantity, long vehiclesSpeedInMs) {
         this.height = height;
         this.width = width;
-        this.dangerZoneHandler = dangerZoneHandler;
         this.carsQuantity = carsQuantity;
         this.vehiclesSpeedInMs = vehiclesSpeedInMs;
+        this.cellTypes = cellTypes;
 
         setFileLines(path);
         setLinesCount();
@@ -109,41 +108,50 @@ public class Instance {
 
             for(int j = 0; j<lineElements.length; j++){
 
-                DangerZoneHandler dangerZoneHandlerClone  = dangerZoneHandler.clone();
+                Cell cell = null;
                 CellDrawing cellDrawing = new CellDrawing(j,i, roadColWidth, roadLineWidth, Direction.NONE);
-                Cell cell = new Cell(i+" "+j, dangerZoneHandlerClone,cellDrawing);
-//                dangerZoneHandlerClone.setCell(cell);
+
+                //TODO: ADD THE OTHER TYPES OF MUTEX
+                if(cellTypes == CellTypes.SYNCHRONIZED_MUTEX){
+                    cell = new SynchronizedMutexCell(i+" "+j, cellDrawing);
+                }
+
+
 
 
                 switch (lineElements[j]){
                     case "0":
                         cell.setDirection(Direction.NONE);
+                        cell.setValue(0);
                         cell.getCellDrawing().setType(Direction.NONE);
                         break;
 
                     case "1" :
                         cell.setDirection(Direction.UP);
+                        cell.setValue(1);
                         cell.getCellDrawing().setType(Direction.UP);
                         break;
 
                     case "2":
                         cell.setDirection(Direction.RIGHT);
+                        cell.setValue(2);
                         cell.getCellDrawing().setType(Direction.RIGHT);
                         break;
 
                     case "3":
                         cell.setDirection(Direction.DOWN);
+                        cell.setValue(3);
                         cell.getCellDrawing().setType(Direction.DOWN);
                     break;
 
                     case "4":
                         cell.setDirection(Direction.LEFT);
+                        cell.setValue(4);
                         cell.getCellDrawing().setType(Direction.LEFT);
                     break;
 
                     default:
-                        cell = new CrossingCell(i+" "+j,dangerZoneHandlerClone,cellDrawing, Integer.parseInt(lineElements[j]));
-//                        dangerZoneHandlerClone.setCell(cell);
+                        cell.setValue(Integer.parseInt(lineElements[j]));
                         cell.setDirection(Direction.UNDEF);
                         cell.getCellDrawing().setType(Direction.UNDEF);
 

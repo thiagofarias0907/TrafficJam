@@ -1,8 +1,8 @@
 package main;
 
 import instance.Instance;
-import instance.world.cells.State.DangerZoneHandler;
-import instance.world.cells.State.MyMutexBlocker;
+import instance.world.cells.cellTypes.CellTypes;
+
 
 public class Main {
 
@@ -11,9 +11,8 @@ public class Main {
 
 
 
-        DangerZoneHandler dangerZoneHandler = new MyMutexBlocker();
 
-        Instance instance = new Instance(600, 600, dangerZoneHandler, "C:\\Users\\alcgo\\OneDrive\\Documentos\\GitHub\\TrafficJam\\src\\main\\resources\\malha1-caso2.txt", 5, 3000);
+        Instance instance = new Instance(600, 600, CellTypes.SYNCHRONIZED_MUTEX, "C:\\Users\\alcgo\\OneDrive\\Documentos\\GitHub\\TrafficJam\\src\\main\\resources\\malha1-caso2.txt", 4, 3000);
 
 
     }

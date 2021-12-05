@@ -1,7 +1,6 @@
 package instance.strategy;
 
 import instance.world.cells.Cell;
-import instance.world.cells.CrossingCell;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,7 +10,6 @@ public class AddPathsUndefDirection implements AddPathsStrategy{
     @Override
     public void addPaths(ArrayList<Cell> paths, HashMap<String, Cell> grid, int line, int column, Cell cell, int lineCount, int RowCount) {
 
-        CrossingCell crossingCell = (CrossingCell) cell;
 
         Cell upCell = grid.get((line-1)+" "+column);
         Cell downCell = grid.get((line+1)+" "+column);
@@ -19,7 +17,7 @@ public class AddPathsUndefDirection implements AddPathsStrategy{
         Cell rightCell = grid.get(line +" "+ (column+1)) ;
 
 
-        switch (crossingCell.getValue()){
+        switch (cell.getValue()){
 
             case 5->{
                 paths.add(upCell);

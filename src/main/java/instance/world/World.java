@@ -38,7 +38,7 @@ public class World implements Runnable {
             Random rand = new Random();
             enterPoints.get(rand.nextInt(enterPoints.size())).enterThisRoad(car);
             Thread thread = new Thread(car);
-            car.setSpeedInMs(rand.nextInt(1,5000));
+            car.setSpeedInMs(rand.nextInt(1,1000));
             thread.start();
         }
     }
