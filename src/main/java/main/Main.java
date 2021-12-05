@@ -12,7 +12,7 @@ public class Main {
 
 
 
-        Instance instance = new Instance(600, 600, CellTypes.SYNCHRONIZED_MUTEX, "C:\\Users\\alcgo\\OneDrive\\Documentos\\GitHub\\TrafficJam\\src\\main\\resources\\malha1-caso3.txt", 4, 5000);
+        Instance instance = new Instance(600, 600, CellTypes.SEMAPHORE, "C:\\Users\\alcgo\\OneDrive\\Documentos\\GitHub\\TrafficJam\\src\\main\\resources\\malha3-caso2.txt", 4, 1000);
 
 
     }

@@ -4,26 +4,26 @@ import instance.world.cars.Car;
 import instance.world.cells.Cell;
 import instance.world.cells.CellDrawing;
 
-public class SynchronizedMutexCell extends Cell {
+import java.util.concurrent.Semaphore;
 
+public class SemaphoreCell extends Cell {
 
-    public SynchronizedMutexCell(String id, CellDrawing cellDrawing) {
+    private Semaphore mutex;
+
+    public SemaphoreCell(String id, CellDrawing cellDrawing) {
         super(id, cellDrawing);
+        mutex = new Semaphore(1);
     }
 
     @Override
     public void enterThisRoad(Car car) {
 
-        synchronized (this){
-            System.out.println(car+" trying to enter ");
+        if(this.car==null){
 
-            if(this.car!=null){
-                try {
-                    System.out.println(car+" will be waiting");
-                    wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            try {
+                mutex.acquire();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
             final String[] valuesInKey = id.split("\s");
@@ -41,17 +41,13 @@ public class SynchronizedMutexCell extends Cell {
             }
 
             car.setCurrentRoad(this);
-
         }
     }
 
     @Override
     public void exitThisRoad() {
 
-        synchronized (this){
-            this.car = null;
-            notifyAll();
-        }
-
+        this.car = null;
+        mutex.release();
     }
 }

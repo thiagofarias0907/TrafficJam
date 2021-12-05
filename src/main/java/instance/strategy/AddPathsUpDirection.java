@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class AddPathsUpDirection implements AddPathsStrategy {
 
     @Override
-    public void addPaths(ArrayList<Cell> paths, HashMap<String, Cell> grid, int line, int column, Cell cell, int lineCount, int RowCount) {
+    public void addPaths(ArrayList<Cell> paths, HashMap<String, Cell> grid, int line, int column, Cell cell) {
 
 
         Cell upCell = grid.get((line-1)+" "+column);
@@ -38,10 +38,6 @@ public class AddPathsUpDirection implements AddPathsStrategy {
 
             if(upCell!= null && upCell.getDirection() != Direction.DOWN){
                 paths.add(upCell);
-            }
-
-            if(upCell == null){
-                paths.add(grid.get(lineCount-1+" "+column));
             }
 
 

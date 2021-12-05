@@ -10,7 +10,8 @@ import instance.world.cells.Cell;
 import instance.world.cells.CellDrawing;
 import instance.world.cells.Direction;
 import instance.world.cells.cellTypes.CellTypes;
-import instance.world.cells.cellTypes.SynchronizedMutexCell;
+import instance.world.cells.cellTypes.SemaphoreCell;
+import instance.world.cells.cellTypes.SynchronizedCell;
 
 import java.awt.*;
 import java.io.IOException;
@@ -112,8 +113,11 @@ public class Instance {
                 CellDrawing cellDrawing = new CellDrawing(j,i, roadColWidth, roadLineWidth, Direction.NONE);
 
                 //TODO: ADD THE OTHER TYPES OF MUTEX
-                if(cellTypes == CellTypes.SYNCHRONIZED_MUTEX){
-                    cell = new SynchronizedMutexCell(i+" "+j, cellDrawing);
+                if(cellTypes == CellTypes.SYNCHRONIZED){
+                    cell = new SynchronizedCell(i+" "+j, cellDrawing);
+                }
+                else if(cellTypes== CellTypes.SEMAPHORE){
+                    cell = new SemaphoreCell(i+" "+j, cellDrawing);
                 }
 
 
@@ -208,7 +212,7 @@ public class Instance {
             }
 
             if(addPathsStrategy!=null){
-                addPathsStrategy.addPaths(paths, grid, line, column, cell, linesCount, columnsCount);
+                addPathsStrategy.addPaths(paths, grid, line, column, cell);
             }
         }
 

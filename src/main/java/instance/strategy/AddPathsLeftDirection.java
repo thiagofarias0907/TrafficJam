@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 public class AddPathsLeftDirection implements AddPathsStrategy {
     @Override
-    public void addPaths(ArrayList<Cell> paths, HashMap<String, Cell> grid, int line, int column, Cell cell, int lineCount, int columnCount) {
+    public void addPaths(ArrayList<Cell> paths, HashMap<String, Cell> grid, int line, int column, Cell cell) {
 
         Cell upCell = grid.get((line-1)+" "+column);
         Cell downCell = grid.get((line+1)+" "+column);
@@ -36,10 +36,6 @@ public class AddPathsLeftDirection implements AddPathsStrategy {
 
         if(downCell!= null && downLeftCell != null && downCell.getDirection() == Direction.LEFT&& downLeftCell.getDirection() == Direction.LEFT){
             paths.add(downLeftCell);
-        }
-
-        if(leftCell==null){
-            paths.add(grid.get(line+" "+(columnCount-1)));
         }
 
 
