@@ -89,7 +89,7 @@ public class Cell {
 
         synchronized (this){
             this.car = null;
-            notify();
+            notifyAll();
         }
 
     }

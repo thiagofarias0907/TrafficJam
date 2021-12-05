@@ -1,8 +1,6 @@
 package instance.world.cells.State;
 
 
-import instance.world.cars.Car;
-import instance.world.cells.Cell;
 
 public abstract class DangerZoneHandler implements Cloneable {
 
