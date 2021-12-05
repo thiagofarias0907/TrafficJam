@@ -20,11 +20,11 @@ public class AddPathsRightDirection implements AddPathsStrategy {
 
 
 
-        if(upCell!= null && (upCell.getDirection() == Direction.UP || upCell.getDirection() == Direction.UNDEF)){
+        if(upCell!= null && (upCell.getDirection() == Direction.UP || upCell.getDirection() == Direction.CROSSING)){
             paths.add(upCell);
         }
 
-        if(downCell!= null && (downCell.getDirection()==Direction.DOWN || downCell.getDirection()==Direction.UNDEF)){
+        if(downCell!= null && (downCell.getDirection()==Direction.DOWN || downCell.getDirection()==Direction.CROSSING)){
             paths.add(downCell);
         }
 

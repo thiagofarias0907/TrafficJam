@@ -152,8 +152,8 @@ public class Instance {
 
                     default:
                         cell.setValue(Integer.parseInt(lineElements[j]));
-                        cell.setDirection(Direction.UNDEF);
-                        cell.getCellDrawing().setType(Direction.UNDEF);
+                        cell.setDirection(Direction.CROSSING);
+                        cell.getCellDrawing().setType(Direction.CROSSING);
 
                 }
 
@@ -200,7 +200,7 @@ public class Instance {
                 break;
                 }
 
-                case UNDEF -> {
+                case CROSSING -> {
                     addPathsStrategy = new AddPathsUndefDirection();
                 break;
                 }

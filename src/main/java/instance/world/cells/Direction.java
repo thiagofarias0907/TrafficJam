@@ -7,8 +7,7 @@ public enum Direction {
     UP ,
     LEFT ,
     RIGHT,
-    UNDEF
-    ;
+    CROSSING;
 
 
 

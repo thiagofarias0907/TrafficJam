@@ -2,7 +2,7 @@ package instance.world.cells;
 
 import instance.world.cars.Car;
 
-public  abstract class Cell {
+public abstract class Cell {
 
     protected String id;
     protected Direction direction;

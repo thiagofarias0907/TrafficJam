@@ -1,7 +1,5 @@
 package instance.world.cells;
 
-import instance.world.cells.Direction;
-
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
@@ -36,7 +34,7 @@ public class CellDrawing {
             case LEFT -> color =  new Color(200,100,100);
             case RIGHT -> color = new Color(100,200,100);
             case NONE -> color = new Color(200,200,200);
-            case UNDEF -> color = new Color(180,180,180);
+            case CROSSING -> color = new Color(180,180,180);
         }
     }
 }

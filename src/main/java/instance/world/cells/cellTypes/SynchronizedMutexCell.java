@@ -47,9 +47,11 @@ public class SynchronizedMutexCell extends Cell {
 
     @Override
     public void exitThisRoad() {
+
         synchronized (this){
             this.car = null;
             notifyAll();
         }
+
     }
 }
