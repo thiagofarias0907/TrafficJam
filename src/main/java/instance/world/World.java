@@ -5,8 +5,9 @@ import instance.world.cells.Cell;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
-public class World {
+public class World implements Runnable {
 
     private WorldDrawable drawable;
     private HashMap<String, Cell> grid;
@@ -22,16 +23,23 @@ public class World {
         this.enterPoints = enterPoints;
         this.exitPoints = exitPoints;
 
-        for (Car car: this.cars) {
-            //todo: alocar os veiculos dinamicamente
-            car.setCurrentRoad(enterPoints.get(0));
-            Thread thread = new Thread(car);
-            thread.start();
-        }
+        Thread thread = new Thread(this);
+        thread.start();
+
     }
 
     public WorldDrawable getDrawable() {
         return drawable;
     }
 
+    @Override
+    public void run() {
+        for (Car car: this.cars) {
+            Random rand = new Random();
+            enterPoints.get(rand.nextInt(enterPoints.size())).enterThisRoad(car);
+            Thread thread = new Thread(car);
+            car.setSpeedInMs(rand.nextInt(1000,3000));
+            thread.start();
+        }
+    }
 }

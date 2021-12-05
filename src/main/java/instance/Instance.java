@@ -112,7 +112,7 @@ public class Instance {
                 DangerZoneHandler dangerZoneHandlerClone  = dangerZoneHandler.clone();
                 CellDrawing cellDrawing = new CellDrawing(j,i, roadColWidth, roadLineWidth, Direction.NONE);
                 Cell cell = new Cell(i+" "+j, dangerZoneHandlerClone,cellDrawing);
-                dangerZoneHandlerClone.setCell(cell);
+//                dangerZoneHandlerClone.setCell(cell);
 
 
                 switch (lineElements[j]){
@@ -143,7 +143,7 @@ public class Instance {
 
                     default:
                         cell = new CrossingCell(i+" "+j,dangerZoneHandlerClone,cellDrawing, Integer.parseInt(lineElements[j]));
-                        dangerZoneHandlerClone.setCell(cell);
+//                        dangerZoneHandlerClone.setCell(cell);
                         cell.setDirection(Direction.UNDEF);
                         cell.getCellDrawing().setType(Direction.UNDEF);
 

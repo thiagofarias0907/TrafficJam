@@ -14,49 +14,47 @@ public class Car implements Runnable{
         this.speedInMs = speedInMs;
     }
 
-    public void moveToTheNextRoad(){
-
+    private void moveToTheNextRoad(){
         if(currentRoad!=null){
             Cell cell = currentRoad.getPaths()[ThreadLocalRandom.current().nextInt(0, currentRoad.getPaths().length)];
-            cell.getDangerZoneHandler().moveCarToThisCell(this);
+            cell.enterThisRoad(this);
         }
 
-
     }
+
 
     @Override
     public void run() {
 
       while (true){
+          try {
+              Thread.sleep(speedInMs);
+          } catch (InterruptedException e) {
+              e.printStackTrace();
+          }
+
           moveToTheNextRoad();
+
+
       }
 
+    }
+
+
+
+    public CarDrawing getDrawing() {
+        return drawing;
     }
 
     public Cell getCurrentRoad() {
         return currentRoad;
     }
 
-    public long getSpeedInMs() {
-        return speedInMs;
-    }
-
     public void setCurrentRoad(Cell currentRoad) {
         this.currentRoad = currentRoad;
-        final String[] valuesInKey = currentRoad.getId().split("\s");
-        drawing.setxPos(Integer.parseInt(valuesInKey[1]));
-        drawing.setyPos(Integer.parseInt(valuesInKey[0]));
     }
 
-    public CarDrawing getDrawing() {
-        return drawing;
-    }
-
-    @Override
-    public String toString() {
-        return "Car{" +
-                "drawing=" + drawing +
-                ", currentRoad=" + currentRoad +
-                '}';
+    public void setSpeedInMs(long speedInMs) {
+        this.speedInMs = speedInMs;
     }
 }

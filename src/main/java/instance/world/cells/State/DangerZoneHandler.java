@@ -6,25 +6,17 @@ import instance.world.cells.Cell;
 
 public abstract class DangerZoneHandler implements Cloneable {
 
-    private Cell cell;
 
-    public abstract void moveCarToThisCell(Car car);
+    @Override
+    public DangerZoneHandler clone() {
 
-    public Cell getCell() {
-        return cell;
-    }
 
-    public void setCell(Cell cell) {
-        this.cell = cell;
-    }
-
-    public DangerZoneHandler clone(){
         try {
-            DangerZoneHandler dangerZoneHandler = (DangerZoneHandler) super.clone();
-            return dangerZoneHandler;
+            return (DangerZoneHandler) super.clone();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 }
