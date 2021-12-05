@@ -16,6 +16,9 @@ import java.util.List;
 
 public class World extends JComponent {
 
+    private static String file ="C:\\Users\\Thiago\\Desktop\\Malhas de Exemplo-20211110\\malha3-caso2.txt";
+    private static int numberOfCars = 100;
+
     private int width;
     private int height;
     private static int matrixSize = 20;
