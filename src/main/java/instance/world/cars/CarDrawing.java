@@ -45,4 +45,13 @@ public class CarDrawing {
     public void setyPos(int yPos) {
         this.yPos = yPos;
     }
+
+    @Override
+    public String toString() {
+        return "CarDrawing{" +
+                "xPos=" + xPos +
+                ", yPos=" + yPos +
+                ", color=" + color +
+                '}';
+    }
 }

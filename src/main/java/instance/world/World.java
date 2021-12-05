@@ -23,6 +23,7 @@ public class World {
         this.exitPoints = exitPoints;
 
         for (Car car: this.cars) {
+
             car.setCurrentRoad(enterPoints.get(0));
             Thread thread = new Thread(car);
             thread.start();

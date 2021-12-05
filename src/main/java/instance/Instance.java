@@ -320,7 +320,7 @@ public class Instance {
 
         world = new World(worldDrawable, grid, cars, getEnterCells(grid), getExitCells(grid));
 
-        Thread thread = new Thread(new Renderer());
+        Thread thread = new Thread(new Renderer(), "Renderer");
         thread.start();
     }
 

@@ -18,24 +18,7 @@ public class Car implements Runnable{
 
         Cell cell = currentRoad.getPaths()[ThreadLocalRandom.current().nextInt(0, currentRoad.getPaths().length)];
 
-
-        if(cell.getDangerZoneHandler().isAvailable()){
-
-            try {
-                Thread.sleep(500);
-                cell.getDangerZoneHandler().enterTheDangerZone();
-                currentRoad.getDangerZoneHandler().exitedDangerZone();
-                currentRoad = cell;
-
-                final String[] valuesInKey = currentRoad.getId().split("\s");
-
-                drawing.setxPos(Integer.parseInt(valuesInKey[1]));
-                drawing.setyPos(Integer.parseInt(valuesInKey[0]));
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return true;
-        }
+        cell.getDangerZoneHandler().enterTheDangerZone(this, cell);
 
         return false;
 
@@ -54,11 +37,23 @@ public class Car implements Runnable{
         return currentRoad;
     }
 
+    public long getSpeedInMs() {
+        return speedInMs;
+    }
+
     public void setCurrentRoad(Cell currentRoad) {
         this.currentRoad = currentRoad;
     }
 
     public CarDrawing getDrawing() {
         return drawing;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "drawing=" + drawing +
+                ", currentRoad=" + currentRoad +
+                '}';
     }
 }

@@ -1,6 +1,8 @@
 package instance.world.cells.State;
 
 
+import instance.world.cars.Car;
+import instance.world.cells.Cell;
 
 public abstract class DangerZoneHandler implements Cloneable {
 
@@ -16,7 +18,7 @@ public abstract class DangerZoneHandler implements Cloneable {
 
     public abstract boolean exitedDangerZone();
 
-    public abstract boolean enterTheDangerZone();
+    public abstract boolean enterTheDangerZone(Car car, Cell cell);
 
     protected void setAvailability(boolean availability) {
         this.availability = availability;

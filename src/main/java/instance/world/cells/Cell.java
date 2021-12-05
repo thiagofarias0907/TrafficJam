@@ -43,4 +43,12 @@ public class Cell {
     public Direction getDirection() {
         return direction;
     }
+
+    @Override
+    public String toString() {
+        return "Cell{" +
+                "id='" + id + '\'' +
+                ", direction=" + direction +
+                '}';
+    }
 }
