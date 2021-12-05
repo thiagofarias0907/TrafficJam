@@ -14,13 +14,13 @@ public class Car implements Runnable{
         this.speedInMs = speedInMs;
     }
 
-    public boolean moveToTheNextRoad(){
+    public void moveToTheNextRoad(){
 
-        Cell cell = currentRoad.getPaths()[ThreadLocalRandom.current().nextInt(0, currentRoad.getPaths().length)];
+        if(currentRoad!=null){
+            Cell cell = currentRoad.getPaths()[ThreadLocalRandom.current().nextInt(0, currentRoad.getPaths().length)];
+            cell.getDangerZoneHandler().moveCarToThisCell(this);
+        }
 
-        cell.getDangerZoneHandler().enterTheDangerZone(this, cell);
-
-        return false;
 
     }
 
@@ -43,6 +43,9 @@ public class Car implements Runnable{
 
     public void setCurrentRoad(Cell currentRoad) {
         this.currentRoad = currentRoad;
+        final String[] valuesInKey = currentRoad.getId().split("\s");
+        drawing.setxPos(Integer.parseInt(valuesInKey[1]));
+        drawing.setyPos(Integer.parseInt(valuesInKey[0]));
     }
 
     public CarDrawing getDrawing() {

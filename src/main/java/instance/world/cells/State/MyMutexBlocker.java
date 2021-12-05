@@ -8,25 +8,17 @@ import java.util.concurrent.ThreadLocalRandom;
 
 /*
     when the car will attempt to enter, it will first check if the road is available
-
  */
 public class MyMutexBlocker extends DangerZoneHandler {
 
 
-    @Override
-    public boolean exitedDangerZone() {
-
-      return true;
-    }
 
     @Override
-    public boolean enterTheDangerZone(Car car, Cell cell) {
+    public void moveCarToThisCell(Car car) {
 
         synchronized (this){
 
-            final String[] valuesInKey = car.getCurrentRoad().getId().split("\s");
 
-            System.out.println("Car: "+ car+" Entering road: "+cell);
 
             try {
                 Thread.sleep(car.getSpeedInMs());
@@ -34,15 +26,10 @@ public class MyMutexBlocker extends DangerZoneHandler {
                 e.printStackTrace();
             }
 
-            car.getDrawing().setxPos(Integer.parseInt(valuesInKey[1]));
-            car.getDrawing().setyPos(Integer.parseInt(valuesInKey[0]));
-            car.setCurrentRoad(cell);
-
-
+            car.setCurrentRoad(super.getCell());
 
 
         }
 
-        return false;
     }
 }

@@ -6,22 +6,16 @@ import instance.world.cells.Cell;
 
 public abstract class DangerZoneHandler implements Cloneable {
 
-    private boolean availability;
+    private Cell cell;
 
-    public DangerZoneHandler() {
-        this.availability = true;
+    public abstract void moveCarToThisCell(Car car);
+
+    public Cell getCell() {
+        return cell;
     }
 
-    public boolean isAvailable() {
-        return availability;
-    }
-
-    public abstract boolean exitedDangerZone();
-
-    public abstract boolean enterTheDangerZone(Car car, Cell cell);
-
-    protected void setAvailability(boolean availability) {
-        this.availability = availability;
+    public void setCell(Cell cell) {
+        this.cell = cell;
     }
 
     public DangerZoneHandler clone(){
