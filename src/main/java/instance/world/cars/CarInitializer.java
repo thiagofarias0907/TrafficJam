@@ -20,22 +20,10 @@ public class CarInitializer implements Runnable {
 
     public void initialize(){
 
-        if(enterPoints.get(0) instanceof SynchronizedCell){
 
-            for (Car car: this.cars) {
-                Random rand = new Random();
-
-                Thread thread = new Thread(car);
-                thread.start();
-
-                enterPoints.get(rand.nextInt(enterPoints.size())).enterThisRoad(car);
-
-            }
-        }
-        else {
             Thread thread = new Thread(this);
             thread.start();
-        }
+
 
     }
 

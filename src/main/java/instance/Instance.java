@@ -112,7 +112,6 @@ public class Instance {
                 Cell cell = null;
                 CellDrawing cellDrawing = new CellDrawing(j,i, roadColWidth, roadLineWidth, Direction.NONE);
 
-                //TODO: ADD THE OTHER TYPES OF MUTEX
                 if(cellTypes == CellTypes.SYNCHRONIZED){
                     cell = new SynchronizedCell(i+" "+j, cellDrawing);
                 }

@@ -19,25 +19,24 @@ public class SynchronizedCell extends Cell {
             if(this.car==null){
                 final String[] valuesInKey = id.split("\s");
 
-                System.out.println(car+" entering the road "+ this);
-
                 car.getDrawing().setxPos(Integer.parseInt(valuesInKey[1]));
                 car.getDrawing().setyPos(Integer.parseInt(valuesInKey[0]));
                 this.car = car;
 
-                System.out.println(" clearing the road "+ car.getCurrentRoad());
 
                 if(car.getCurrentRoad()!=null){
                     car.getCurrentRoad().exitThisRoad();
                 }
 
                 car.setCurrentRoad(this);
+                return true;
+
+            }
+            else {
+                return false;
             }
 
-
-
         }
-        return true;
     }
 
     @Override

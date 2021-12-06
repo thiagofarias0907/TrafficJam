@@ -3,17 +3,14 @@ package instance.world;
 import instance.world.cars.Car;
 import instance.world.cars.CarInitializer;
 import instance.world.cells.Cell;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+
+import java.util.*;
 
 public class World {
 
     private WorldDrawable drawable;
     private HashMap<String, Cell> grid;
     private LinkedList<Car> cars;
-
 
 
     public World(WorldDrawable drawable, HashMap<String, Cell> grid, LinkedList<Car> cars, List<Cell> enterPoints, List<Cell> exitPoints) {
@@ -24,12 +21,13 @@ public class World {
 
         CarInitializer carInitializer = new CarInitializer(cars, enterPoints);
         carInitializer.initialize();
-
     }
 
     public WorldDrawable getDrawable() {
         return drawable;
     }
+
+
 
 
 }

@@ -22,6 +22,7 @@ public class SemaphoreCell extends Cell {
 
                 try {
                     mutex.acquire();
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
