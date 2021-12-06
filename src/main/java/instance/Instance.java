@@ -42,18 +42,21 @@ public class Instance {
     private float roadLineWidth;
 
     private int carsQuantity;
-    private long vehiclesSpeedInMs;
+    private long minVehiclesSpeedInMs;
+    private long maxVehiclesSpeedInMs;
+
     CellTypes cellTypes;
     private World world;
 
     private List<String> fileLines;
 
 
-    public Instance(int height, int width, CellTypes cellTypes, String path, int carsQuantity, long vehiclesSpeedInMs) {
+    public Instance(int height, int width, CellTypes cellTypes, String path, int carsQuantity, long minVehiclesSpeedInMs, long maxVehiclesSpeedInMs) {
         this.height = height;
         this.width = width;
         this.carsQuantity = carsQuantity;
-        this.vehiclesSpeedInMs = vehiclesSpeedInMs;
+        this.minVehiclesSpeedInMs = minVehiclesSpeedInMs;
+        this.maxVehiclesSpeedInMs = maxVehiclesSpeedInMs;
         this.cellTypes = cellTypes;
 
         setFileLines(path);
@@ -308,7 +311,7 @@ public class Instance {
 
             CarDrawing carDrawing = new CarDrawing( 25, new Color(r, g, b));
 
-        Car car = new Car(carDrawing,vehiclesSpeedInMs);
+        Car car = new Car(carDrawing,minVehiclesSpeedInMs, maxVehiclesSpeedInMs);
         cars.add(car);
         }
         return cars;

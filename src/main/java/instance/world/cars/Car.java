@@ -1,6 +1,8 @@
 package instance.world.cars;
 
 import instance.world.cells.Cell;
+
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Car implements Runnable{
@@ -10,9 +12,10 @@ public class Car implements Runnable{
     private Cell currentRoad;
     private long speedInMs;
 
-    public Car(CarDrawing drawing, long speedInMs) {
+    public Car(CarDrawing drawing, long minSpeed, long maxSpeed) {
         this.drawing = drawing;
-        this.speedInMs = speedInMs;
+        Random random = new Random();
+        this.speedInMs = random.nextLong(minSpeed, maxSpeed);
     }
 
     private void moveToTheNextRoad(){
