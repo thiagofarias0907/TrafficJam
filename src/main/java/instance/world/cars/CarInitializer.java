@@ -48,7 +48,7 @@ public class CarInitializer implements Runnable {
             while (!enterPoints.get(i).enterThisRoad(car)) {
 
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(car.getSpeedInMs());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -63,11 +63,7 @@ public class CarInitializer implements Runnable {
             else {
                 i++;
             }
-
-
         }
-
-
 
     }
 }

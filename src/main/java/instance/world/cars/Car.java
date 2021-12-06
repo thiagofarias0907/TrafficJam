@@ -64,7 +64,7 @@ public class Car implements Runnable{
         }
     }
 
-    public void setSpeedInMs(long speedInMs) {
-        this.speedInMs = speedInMs;
+    public long getSpeedInMs() {
+        return speedInMs;
     }
 }
