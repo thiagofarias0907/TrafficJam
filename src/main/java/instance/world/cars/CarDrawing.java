@@ -46,6 +46,10 @@ public class CarDrawing {
         this.yPos = yPos;
     }
 
+    public void setScale(float scale) {
+        this.scale = scale;
+    }
+
     @Override
     public String toString() {
         return "CarDrawing{" +

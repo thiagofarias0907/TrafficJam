@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Car implements Runnable{
 
+    private boolean isFinished;
     private CarDrawing drawing;
     private Cell currentRoad;
     private long speedInMs;
@@ -26,13 +27,12 @@ public class Car implements Runnable{
     @Override
     public void run() {
 
-      while (true){
+      while (!isFinished){
           try {
               Thread.sleep(speedInMs);
           } catch (InterruptedException e) {
               e.printStackTrace();
           }
-
           moveToTheNextRoad();
       }
 
@@ -50,6 +50,18 @@ public class Car implements Runnable{
 
     public void setCurrentRoad(Cell currentRoad) {
         this.currentRoad = currentRoad;
+
+        if(currentRoad.getPaths().length == 0){
+
+            try {
+                Thread.sleep(speedInMs);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            isFinished = true;
+            drawing.setScale(0);
+        }
     }
 
     public void setSpeedInMs(long speedInMs) {

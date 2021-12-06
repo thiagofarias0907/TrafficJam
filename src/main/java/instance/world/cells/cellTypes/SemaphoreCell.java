@@ -18,30 +18,33 @@ public class SemaphoreCell extends Cell {
     @Override
     public void enterThisRoad(Car car) {
 
-        if(this.car==null){
+            if(this.car==null){
 
-            try {
-                mutex.acquire();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                try {
+                    mutex.acquire();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                final String[] valuesInKey = id.split("\s");
+
+                System.out.println(car+" entering the road "+ this);
+
+                car.getDrawing().setxPos(Integer.parseInt(valuesInKey[1]));
+                car.getDrawing().setyPos(Integer.parseInt(valuesInKey[0]));
+                this.car = car;
+
+                System.out.println(" clearing the road "+ car.getCurrentRoad());
+
+                if(car.getCurrentRoad()!=null){
+                    car.getCurrentRoad().exitThisRoad();
+                }
+
+                car.setCurrentRoad(this);
             }
 
-            final String[] valuesInKey = id.split("\s");
 
-            System.out.println(car+" entering the road "+ this);
 
-            car.getDrawing().setxPos(Integer.parseInt(valuesInKey[1]));
-            car.getDrawing().setyPos(Integer.parseInt(valuesInKey[0]));
-            this.car = car;
-
-            System.out.println(" clearing the road "+ car.getCurrentRoad());
-
-            if(car.getCurrentRoad()!=null){
-                car.getCurrentRoad().exitThisRoad();
-            }
-
-            car.setCurrentRoad(this);
-        }
     }
 
     @Override
