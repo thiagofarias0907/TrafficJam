@@ -58,7 +58,7 @@ public class Car implements Runnable{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
+            currentRoad.exitThisRoad();
             isFinished = true;
             drawing.setScale(0);
         }

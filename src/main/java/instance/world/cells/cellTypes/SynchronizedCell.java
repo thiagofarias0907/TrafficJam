@@ -12,7 +12,7 @@ public class SynchronizedCell extends Cell {
     }
 
     @Override
-    public void enterThisRoad(Car car) {
+    public boolean enterThisRoad(Car car) {
 
         synchronized (this){
 
@@ -37,6 +37,7 @@ public class SynchronizedCell extends Cell {
 
 
         }
+        return true;
     }
 
     @Override

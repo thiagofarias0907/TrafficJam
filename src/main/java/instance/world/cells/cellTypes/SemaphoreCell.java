@@ -16,7 +16,7 @@ public class SemaphoreCell extends Cell {
     }
 
     @Override
-    public void enterThisRoad(Car car) {
+    public boolean enterThisRoad(Car car) {
 
             if(this.car==null){
 
@@ -41,6 +41,11 @@ public class SemaphoreCell extends Cell {
                 }
 
                 car.setCurrentRoad(this);
+
+                return true;
+            }
+            else {
+                return false;
             }
 
 

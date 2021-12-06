@@ -45,7 +45,7 @@ public abstract class Cell {
         return car;
     }
 
-    public abstract void enterThisRoad(Car car);
+    public abstract boolean enterThisRoad(Car car);
 
     public abstract void exitThisRoad();
 
