@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 public class WorldDrawable extends JComponent {
@@ -37,10 +38,14 @@ public class WorldDrawable extends JComponent {
             streetCell.draw(graphics2D);
         });
 
-        carDrawingList.forEach(carDrawing ->
-        {
-            carDrawing.draw(graphics2D);
-        });
+        try {
+            carDrawingList.forEach(carDrawing ->
+            {
+                carDrawing.draw(graphics2D);
+            });
+        }catch (ConcurrentModificationException e){}
+
+
     }
 
     private Graphics2D configureSceneRender(Graphics2D g) {
@@ -58,6 +63,10 @@ public class WorldDrawable extends JComponent {
         graphics2D.fill(background);
 
         return graphics2D;
+    }
+
+    public void addNewCarDrawing(CarDrawing carDrawing){
+        carDrawingList.add(carDrawing);
     }
 
 

@@ -68,6 +68,9 @@ public class Instance {
         makeWorld();
 
         instance = this;
+
+        world.onConstruction();
+
     }
 
     private void setFileLines(String path) {
@@ -260,67 +263,27 @@ public class Instance {
         return cellList.stream().toList();
     }
 
-    private  List<Cell>  getExitCells(HashMap<String, Cell> grid){
-
-        HashSet<Cell> cellList = new HashSet<>();
-
-        for(int i=0; i<columnsCount-1;i++){
-
-            Cell cell = grid.get(0+" "+i);
-
-            if(cell!=null && cell.getDirection()==Direction.UP){
-                cellList.add(cell);
-            }
-
-            cell = grid.get(linesCount-1+" "+i);
-
-            if(cell!=null && cell.getDirection()==Direction.DOWN){
-                cellList.add(cell);
-            }
-
-        }
-
-
-        for(int i=0; i<linesCount-1;i++){
-
-            Cell cell = grid.get(i+" "+0);
-
-            if(cell!=null && cell.getDirection()==Direction.LEFT){
-                cellList.add(cell);
-            }
-
-            cell = grid.get(i+" "+(columnsCount-1));
-
-            if(cell!=null  && cell.getDirection()==Direction.RIGHT){
-                cellList.add(cell);
-            }
-        }
-
-        return cellList.stream().toList();
-    }
-
-
-    private LinkedList<Car> makeVehicles(){
-        LinkedList<Car> cars = new LinkedList<>();
-        for(int i=0;i<carsQuantity;i++){
-            Random rand = new Random();
-
-            int r = rand.nextInt(255);
-            int g = rand.nextInt(255);
-            int b = rand.nextInt(255);
-
-            CarDrawing carDrawing = new CarDrawing( 25, new Color(r, g, b));
-
-        Car car = new Car(carDrawing,minVehiclesSpeedInMs, maxVehiclesSpeedInMs);
-        cars.add(car);
-        }
-        return cars;
-    }
+//    private LinkedList<Car> makeVehicles(){
+//        LinkedList<Car> cars = new LinkedList<>();
+//        for(int i=0;i<carsQuantity;i++){
+//            Random rand = new Random();
+//
+//            int r = rand.nextInt(255);
+//            int g = rand.nextInt(255);
+//            int b = rand.nextInt(255);
+//
+//            CarDrawing carDrawing = new CarDrawing( 25, new Color(r, g, b));
+//
+//        Car car = new Car(carDrawing,minVehiclesSpeedInMs, maxVehiclesSpeedInMs);
+//        cars.add(car);
+//        }
+//        return cars;
+//    }
 
     private void makeWorld(){
 
         HashMap<String, Cell> grid = makeGrid();
-        LinkedList<Car> cars = makeVehicles();
+//        LinkedList<Car> cars = makeVehicles();
 
         List<CellDrawing> cellDrawingList = new ArrayList<>();
         List<CarDrawing> carDrawingList = new ArrayList<>();
@@ -329,14 +292,14 @@ public class Instance {
             cellDrawingList.add(cell.getCellDrawing());
         }
 
-        for (Car car: cars) {
-            carDrawingList.add(car.getDrawing());
-        }
+//        for (Car car: cars) {
+//            carDrawingList.add(car.getDrawing());
+//        }
 
         setCellPaths(grid);
         WorldDrawable worldDrawable = new WorldDrawable(height, width, roadColWidth, roadLineWidth, cellDrawingList, carDrawingList);
 
-        world = new World(worldDrawable, grid, cars, getEnterCells(grid), getExitCells(grid));
+        world = new World(worldDrawable, grid,  getEnterCells(grid));
 
         Thread thread = new Thread(new Renderer(), "Renderer");
         thread.start();
@@ -356,5 +319,17 @@ public class Instance {
 
     public World getWorld() {
         return world;
+    }
+
+    public long getMinVehiclesSpeedInMs() {
+        return minVehiclesSpeedInMs;
+    }
+
+    public long getMaxVehiclesSpeedInMs() {
+        return maxVehiclesSpeedInMs;
+    }
+
+    public int getCarsQuantity() {
+        return carsQuantity;
     }
 }

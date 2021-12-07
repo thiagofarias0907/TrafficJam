@@ -1,8 +1,10 @@
 package instance.world.cars;
 
+import instance.Instance;
 import instance.world.cells.Cell;
 import instance.world.cells.cellTypes.SynchronizedCell;
 
+import java.awt.*;
 import java.util.List;
 import java.util.Random;
 
@@ -14,43 +16,56 @@ public class CarInitializer implements Runnable {
     public CarInitializer(List<Car> cars, List<Cell> enterPoints) {
         this.cars = cars;
         this.enterPoints = enterPoints;
-
     }
 
 
     public void initialize(){
-
-
             Thread thread = new Thread(this);
             thread.start();
-
-
-    }
+   }
 
     @Override
     public void run() {
 
-        int i =0;
-        for (Car car: cars) { //para cada carro
 
-            while (!enterPoints.get(i).enterThisRoad(car)) {
+        while (true){
 
-                try {
-                    Thread.sleep(car.getSpeedInMs());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            int carsCount = Instance.getInstance().getWorld().getCarsCount();
+            int carsQtd = Instance.getInstance().getCarsQuantity();
 
-            } //fique tentando colocar o carro na rua dele
-            Thread thread = new Thread(car); //quando conseguir inicialize a thread do carro
-            thread.start();
 
-            if(i+1>=enterPoints.size()){
-                i=0;
+            if(carsCount < carsQtd){
+
+                Random rand = new Random();
+
+                int r = rand.nextInt(255);
+                int g = rand.nextInt(255);
+                int b = rand.nextInt(255);
+
+                CarDrawing carDrawing = new CarDrawing( 25, new Color(r, g, b));
+                Car car = new Car(carDrawing,Instance.getInstance().getMinVehiclesSpeedInMs(), Instance.getInstance().getMaxVehiclesSpeedInMs());
+
+                int i =0;
+
+                while (!enterPoints.get(i).enterThisRoad(car)) {
+
+                    if(i+1>=enterPoints.size()){
+                        i=0;
+                    }
+                    else {
+                        i++;
+                    }
+
+                } //fique tentando colocar o carro em alguma rua disponivel
+
+                Thread thread = new Thread(car); //quando conseguir inicialize a thread do carro
+                thread.start();
+                Instance.getInstance().getWorld().getDrawable().addNewCarDrawing(carDrawing);
+
+
+
             }
-            else {
-                i++;
-            }
+
         }
 
     }

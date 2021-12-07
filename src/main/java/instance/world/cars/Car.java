@@ -1,5 +1,6 @@
 package instance.world.cars;
 
+import instance.Instance;
 import instance.world.cells.Cell;
 
 import java.util.Random;
@@ -16,6 +17,7 @@ public class Car implements Runnable{
         this.drawing = drawing;
         Random random = new Random();
         this.speedInMs = random.nextLong(minSpeed, maxSpeed);
+        Instance.getInstance().getWorld().addCarInWorld();
     }
 
     private void moveToTheNextRoad(){
@@ -38,6 +40,9 @@ public class Car implements Runnable{
           }
           moveToTheNextRoad();
       }
+
+        Instance.getInstance().getWorld().subtractCarInWorld();
+
 
     }
 
