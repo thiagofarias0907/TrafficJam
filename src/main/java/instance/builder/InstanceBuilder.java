@@ -6,6 +6,7 @@ package instance.builder;
 import instance.Instance;
 import instance.world.cells.cellTypes.CellTypes;
 
+
 public class InstanceBuilder {
 
     private CellTypes cellTypes;
