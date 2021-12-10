@@ -12,6 +12,8 @@ public class CarInitializer implements Runnable {
 
     List<Car> cars;
     List<Cell> enterPoints;
+    private boolean simulating;
+
 
     public CarInitializer(List<Car> cars, List<Cell> enterPoints) {
         this.cars = cars;
@@ -28,7 +30,7 @@ public class CarInitializer implements Runnable {
     public void run() {
 
 
-        while (true){
+        while (simulating){
 
             int carsCount = Instance.getInstance().getWorld().getCarsCount();
             int carsQtd = Instance.getInstance().getCarsQuantity();
@@ -56,9 +58,9 @@ public class CarInitializer implements Runnable {
                         i++;
                     }
 
-                } //fique tentando colocar o carro em alguma rua disponivel
+                }
 
-                Thread thread = new Thread(car); //quando conseguir inicialize a thread do carro
+                Thread thread = new Thread(car);
                 thread.start();
                 Instance.getInstance().getWorld().getDrawable().addNewCarDrawing(carDrawing);
 
