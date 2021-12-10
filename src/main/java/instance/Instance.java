@@ -50,7 +50,7 @@ public class Instance {
 
     private List<String> fileLines;
 
-    Thread rendererThread;
+    private boolean running;
 
 
     public Instance(int height, int width, CellTypes cellTypes, String path, int carsQuantity, long minVehiclesSpeedInMs, long maxVehiclesSpeedInMs) {
@@ -60,6 +60,7 @@ public class Instance {
         this.minVehiclesSpeedInMs = minVehiclesSpeedInMs;
         this.maxVehiclesSpeedInMs = maxVehiclesSpeedInMs;
         this.cellTypes = cellTypes;
+        this.running = true;
 
         setFileLines(path);
         setLinesCount();
@@ -333,5 +334,13 @@ public class Instance {
 
     public int getCarsQuantity() {
         return carsQuantity;
+    }
+
+    public synchronized boolean isRunning(){
+        return running;
+    }
+
+    public synchronized void stopRunning(boolean b) {
+        this.running = !b;
     }
 }

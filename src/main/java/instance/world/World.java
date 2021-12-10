@@ -25,12 +25,13 @@ public class World {
 
     public void onConstruction(){
         carInitializer = new CarInitializer(cars, enterPoints);
-        carInitializer.initialize();
+        Thread initializerThread = new Thread(carInitializer);
+        initializerThread.start();
     }
 
-    public void stopCarInitializer(){
-        carInitializer.stop();
-    }
+//    public synchronized void stopCarInitializer(){
+//        carInitializer.stop();
+//    }
 
     public WorldDrawable getDrawable() {
         return drawable;
@@ -46,15 +47,6 @@ public class World {
 
     public synchronized int getCarsCount() {
         return carsCount;
-    }
-
-
-    public void stopAll(){
-//        this.drawable.removeAll();
-        stopCarInitializer();
-        this.drawable = null;
-        this.cars = null;
-//        this.carInitializer = null;
     }
 
 }

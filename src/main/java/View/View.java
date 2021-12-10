@@ -37,6 +37,17 @@ public class View extends JFrame{
         btnStart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                if(Instance.getInstance()!=null){
+                    if(Instance.getInstance().isRunning()) {
+                        Instance.getInstance().stopRunning(true);
+                        return;
+                    }
+
+                }
+
+                jpanelCanvas.removeAll();
+                jpanelCanvas.revalidate();
                 jpanelCanvas.setVisible(true);
 
                 if(!checkSelectionsAndFields())
@@ -60,13 +71,18 @@ public class View extends JFrame{
 
                 jpanelCanvas.add(Instance.getInstance().getWorld().getDrawable());
                 jpanelCanvas.revalidate();
+                btnStart.setEnabled(false);
             }
+
         });
 
         btnStop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Instance.getInstance().getWorld().stopCarInitializer();
+//                Instance.getInstance().getWorld().stopCarInitializer();
+                if(Instance.getInstance() !=null)
+                    Instance.getInstance().stopRunning(true);
+                btnStart.setEnabled(true);
             }
         });
     }

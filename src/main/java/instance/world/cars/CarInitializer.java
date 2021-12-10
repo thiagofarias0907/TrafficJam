@@ -12,7 +12,6 @@ public class CarInitializer implements Runnable {
 
     List<Car> cars;
     List<Cell> enterPoints;
-    private boolean simulating;
 
 
     public CarInitializer(List<Car> cars, List<Cell> enterPoints) {
@@ -20,21 +19,10 @@ public class CarInitializer implements Runnable {
         this.enterPoints = enterPoints;
     }
 
-
-    public void initialize(){
-        this.simulating = true;
-        Thread thread = new Thread(this);
-        thread.start();
-    }
-
-    public void stop(){
-        this.simulating = false;
-    }
-
     @Override
     public void run() {
 
-        while (simulating){
+        while (Instance.getInstance().isRunning()){
 
             int carsCount = Instance.getInstance().getWorld().getCarsCount();
             int carsQtd = Instance.getInstance().getCarsQuantity();
