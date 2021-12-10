@@ -22,13 +22,17 @@ public class CarInitializer implements Runnable {
 
 
     public void initialize(){
-            Thread thread = new Thread(this);
-            thread.start();
-   }
+        this.simulating = true;
+        Thread thread = new Thread(this);
+        thread.start();
+    }
+
+    public void stop(){
+        this.simulating = false;
+    }
 
     @Override
     public void run() {
-
 
         while (simulating){
 

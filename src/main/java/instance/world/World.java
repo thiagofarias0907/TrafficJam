@@ -14,6 +14,7 @@ public class World {
     List<Cell> enterPoints;
 
     int carsCount = 0;
+    private CarInitializer carInitializer;
 
     public World(WorldDrawable drawable, HashMap<String, Cell> grid, List<Cell> enterPoints) {
         this.drawable = drawable;
@@ -23,8 +24,12 @@ public class World {
     }
 
     public void onConstruction(){
-        CarInitializer carInitializer = new CarInitializer(cars, enterPoints);
+        carInitializer = new CarInitializer(cars, enterPoints);
         carInitializer.initialize();
+    }
+
+    public void stopCarInitializer(){
+        carInitializer.stop();
     }
 
     public WorldDrawable getDrawable() {
@@ -43,5 +48,13 @@ public class World {
         return carsCount;
     }
 
+
+    public void stopAll(){
+//        this.drawable.removeAll();
+        stopCarInitializer();
+        this.drawable = null;
+        this.cars = null;
+//        this.carInitializer = null;
+    }
 
 }

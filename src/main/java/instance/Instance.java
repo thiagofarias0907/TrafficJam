@@ -50,6 +50,8 @@ public class Instance {
 
     private List<String> fileLines;
 
+    Thread rendererThread;
+
 
     public Instance(int height, int width, CellTypes cellTypes, String path, int carsQuantity, long minVehiclesSpeedInMs, long maxVehiclesSpeedInMs) {
         this.height = height;
