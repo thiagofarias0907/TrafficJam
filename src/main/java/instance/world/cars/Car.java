@@ -70,10 +70,9 @@ public class Car implements Runnable{
 
     public void setCurrentRoad(Cell currentRoad) {
 
-        //todo:maybe give control over this to the cell Exit this road
-        CrossingCellGroup crossingCellGroup = Instance.getInstance().getWorld().getCrossingGroup(this.currentRoad);
-        if (crossingCellGroup != null)
-            crossingCellGroup.exitThisCrossing();
+        if(this.currentRoad!=null && this.currentRoad.getDirection()==Direction.CROSSING && currentRoad.getDirection()!=Direction.CROSSING){
+            Instance.getInstance().getWorld().getCrossingGroup(this.currentRoad).exitThisCrossing();
+        }
 
         this.currentRoad = currentRoad;
 

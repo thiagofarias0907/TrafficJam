@@ -40,6 +40,10 @@ public class SemaphoreCell extends Cell {
 
 
                 if(car.getCurrentRoad()!=null){
+
+
+
+
                     car.getCurrentRoad().exitThisRoad();
                 }
 
@@ -50,8 +54,6 @@ public class SemaphoreCell extends Cell {
             else {
                 return false;
             }
-
-
 
     }
 

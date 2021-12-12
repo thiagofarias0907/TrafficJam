@@ -31,8 +31,9 @@ public class CrossingCellGroup{
         }
     }
 
-    public void exitThisCrossing() {
+    public synchronized void exitThisCrossing() {
         this.carIsCrossing = false;
+        this.car = null;
         mutex.release();
     }
 
