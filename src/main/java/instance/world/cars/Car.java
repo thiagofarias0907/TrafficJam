@@ -2,6 +2,7 @@ package instance.world.cars;
 
 import instance.Instance;
 import instance.world.cells.Cell;
+import instance.world.cells.CrossingCellGroup;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -24,6 +25,11 @@ public class Car implements Runnable{
         if(currentRoad!=null){
             Cell cell = currentRoad.getPaths()[ThreadLocalRandom.current().nextInt(0, currentRoad.getPaths().length)];
             cell.enterThisRoad(this);
+
+            //todo:maybe controlling the cell group by the cell.enterthisroar itself instead of the group;;
+            CrossingCellGroup crossingCellGroup = Instance.getInstance().getWorld().getCrossingGroup(cell);
+            if (crossingCellGroup != null)
+                crossingCellGroup.enterThisCrossing();
         }
 
     }
@@ -57,6 +63,12 @@ public class Car implements Runnable{
     }
 
     public void setCurrentRoad(Cell currentRoad) {
+
+        //todo:maybe give control over this to the cell Exit this road
+        CrossingCellGroup crossingCellGroup = Instance.getInstance().getWorld().getCrossingGroup(this.currentRoad);
+        if (crossingCellGroup != null)
+            crossingCellGroup.exitThisCrossing();
+
         this.currentRoad = currentRoad;
 
         if(currentRoad.getPaths().length == 0){

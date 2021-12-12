@@ -4,16 +4,15 @@ import Renderer.Renderer;
 import instance.strategy.*;
 import instance.world.World;
 import instance.world.WorldDrawable;
-import instance.world.cars.Car;
 import instance.world.cars.CarDrawing;
 import instance.world.cells.Cell;
 import instance.world.cells.CellDrawing;
+import instance.world.cells.CrossingCellGroup;
 import instance.world.cells.Direction;
 import instance.world.cells.cellTypes.CellTypes;
 import instance.world.cells.cellTypes.SemaphoreCell;
 import instance.world.cells.cellTypes.SynchronizedCell;
 
-import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -52,6 +51,9 @@ public class Instance {
 
     private boolean running;
 
+    private List<CrossingCellGroup> crossingCellGroupList;
+
+
 
     public Instance(int height, int width, CellTypes cellTypes, String path, int carsQuantity, long minVehiclesSpeedInMs, long maxVehiclesSpeedInMs) {
         this.height = height;
@@ -61,6 +63,7 @@ public class Instance {
         this.maxVehiclesSpeedInMs = maxVehiclesSpeedInMs;
         this.cellTypes = cellTypes;
         this.running = true;
+        this.crossingCellGroupList = new ArrayList<>();
 
         setFileLines(path);
         setLinesCount();
@@ -130,7 +133,6 @@ public class Instance {
 
 
 
-
                 switch (lineElements[j]){
                     case "0":
                         cell.setDirection(Direction.NONE);
@@ -166,6 +168,7 @@ public class Instance {
                         cell.setValue(Integer.parseInt(lineElements[j]));
                         cell.setDirection(Direction.CROSSING);
                         cell.getCellDrawing().setType(Direction.CROSSING);
+                        addToCrossingGroup(grid,cell,i,j);
 
                 }
 
@@ -283,6 +286,66 @@ public class Instance {
 //        return cars;
 //    }
 
+    private void addToCrossingGroup(HashMap grid, Cell cell, int line, int column){
+
+        final String[] samelineElements = fileLines.get(line).split("\t");
+
+        Cell sameGroupCell = null;
+        String  sameGroupCellKey = "";
+        int sameGroupCellLine = -1;
+        int sameGroupCellCol  = -1;
+
+        //reads from top to bottom and left to right so only need to check above or before
+
+        //sameline
+        //get previous, if before is one crossing type, save the current one on the same crossing group
+        if (column > 0){
+            if (samelineElements[column-1].matches("5|6|7|8|9|10|11|12|13")){
+//                sameGroupCellKey = line+" "+(column-1);
+                sameGroupCellLine = line;
+                sameGroupCellCol = column-1;
+            }
+        }
+
+//
+//            //get next
+//            if (column < (fileLines.get(line).length()-1))
+
+
+        if (line> 0){
+            final String[] previouslineElements = fileLines.get(line-1).split("\t");
+            if (previouslineElements[column].matches("5|6|7|8|9|10|11|12|13")){
+//                sameGroupCellKey = (line-1)+" " + column;
+                sameGroupCellLine = (line-1);
+                sameGroupCellCol  = column;
+            }
+        }
+
+//            if (line<fileLines.size())
+        if(sameGroupCellCol>=0 && sameGroupCellLine >=0)
+            sameGroupCellKey = sameGroupCellLine + " " + sameGroupCellCol;
+
+        if (!sameGroupCellKey.isBlank())
+            sameGroupCell = (Cell) grid.get(sameGroupCellKey);
+
+        for (CrossingCellGroup crossingCellGroup : crossingCellGroupList) {
+            if (crossingCellGroup.getCellList().contains(cell))
+                return;
+
+            if (crossingCellGroup.getCellList().contains(sameGroupCell)) {
+                crossingCellGroup.getCellList().add(cell);
+                return;
+            }
+        }
+        if(sameGroupCell==null) {
+            CrossingCellGroup crossingCellGroup = new CrossingCellGroup();
+            crossingCellGroup.getCellList().add(cell);
+            crossingCellGroupList.add(crossingCellGroup);
+        }
+
+
+    }
+
     private void makeWorld(){
 
         HashMap<String, Cell> grid = makeGrid();
@@ -302,7 +365,7 @@ public class Instance {
         setCellPaths(grid);
         WorldDrawable worldDrawable = new WorldDrawable(height, width, roadColWidth, roadLineWidth, cellDrawingList, carDrawingList);
 
-        world = new World(worldDrawable, grid,  getEnterCells(grid));
+        world = new World(worldDrawable, grid,  getEnterCells(grid), crossingCellGroupList);
 
         Thread thread = new Thread(new Renderer(), "Renderer");
         thread.start();
