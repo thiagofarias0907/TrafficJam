@@ -1,9 +1,13 @@
 package instance.world.cells.cellTypes;
 
+import instance.Instance;
 import instance.world.cars.Car;
 import instance.world.cells.Cell;
 import instance.world.cells.CellDrawing;
+import instance.world.cells.CrossingCellGroup;
+import instance.world.cells.Direction;
 
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
 public class SemaphoreCell extends Cell {

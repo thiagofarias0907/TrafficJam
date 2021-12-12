@@ -45,6 +45,7 @@ public class Instance {
     private long maxVehiclesSpeedInMs;
 
     CellTypes cellTypes;
+
     private World world;
 
     private List<String> fileLines;
