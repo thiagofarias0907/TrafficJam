@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="25203" binding="jpanelOptions" layout-manager="GridLayoutManager" row-count="5" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="25203" binding="jpanelOptions" layout-manager="GridLayoutManager" row-count="7" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="0" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -18,12 +18,12 @@
         <children>
           <vspacer id="e98d0">
             <constraints>
-              <grid row="1" column="1" row-span="4" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+              <grid row="3" column="1" row-span="4" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
             </constraints>
           </vspacer>
           <component id="4251" class="javax.swing.JRadioButton" binding="rbSemaphore">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Semaphore"/>
@@ -31,7 +31,7 @@
           </component>
           <component id="77bf5" class="javax.swing.JButton" binding="btnStart">
             <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Iniciar"/>
@@ -39,7 +39,7 @@
           </component>
           <component id="eef45" class="javax.swing.JButton" binding="btnStop">
             <constraints>
-              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Encerrar"/>
@@ -50,15 +50,31 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <toolTipText value=""/>
+              <toolTipText value="Defina a quantidade de carros"/>
             </properties>
           </component>
           <component id="7ad30" class="javax.swing.JRadioButton" binding="rbMonitor">
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Monitor"/>
+            </properties>
+          </component>
+          <component id="ced82" class="javax.swing.JSpinner" binding="spnMinSpeed">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <toolTipText value="Defina a velocidade (MS) minima dos carros"/>
+            </properties>
+          </component>
+          <component id="e5dd9" class="javax.swing.JSpinner" binding="spnMaxSpeed">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <toolTipText value="Defina a velocidade (MS) Máxima dos carros"/>
             </properties>
           </component>
         </children>

@@ -20,6 +20,8 @@ public class View extends JFrame{
     private JPanel jpanelOptions;
     private JPanel jpanelCanvas;
     private JPanel mainPanel;
+    private JSpinner spnMinSpeed;
+    private JSpinner spnMaxSpeed;
     private ButtonGroup buttonGroup;
 
 
@@ -31,6 +33,9 @@ public class View extends JFrame{
         this.rbMonitor.setSelected(true);
         this.tfFilePath.setText("target/classes/malha1-caso1.txt");
         this.spinnerQtyCars.setValue(10);
+        this.spnMinSpeed.setValue(1000);
+        this.spnMaxSpeed.setValue(3000);
+
         jpanelOptions.setVisible(true);
         jpanelCanvas.setVisible(true);
 
@@ -65,8 +70,8 @@ public class View extends JFrame{
                 instanceBuilder.setCarsQuantity((int) spinnerQtyCars.getValue());
                 instanceBuilder.setCellTypes(cellType);
                 instanceBuilder.setPath(filePath);
-                instanceBuilder.setMaxVehicleSpeedInMs(500);
-                instanceBuilder.setMinVehicleSpeedInMs(10);
+                instanceBuilder.setMaxVehicleSpeedInMs((int) spnMaxSpeed.getValue());
+                instanceBuilder.setMinVehicleSpeedInMs((int) spnMinSpeed.getValue());
                 instanceBuilder.build();
 
                 jpanelCanvas.add(Instance.getInstance().getWorld().getDrawable());
