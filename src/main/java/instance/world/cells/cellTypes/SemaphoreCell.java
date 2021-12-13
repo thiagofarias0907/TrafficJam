@@ -1,13 +1,10 @@
 package instance.world.cells.cellTypes;
 
-import instance.Instance;
 import instance.world.cars.Car;
 import instance.world.cells.Cell;
 import instance.world.cells.CellDrawing;
-import instance.world.cells.CrossingCellGroup;
-import instance.world.cells.Direction;
 
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.concurrent.Semaphore;
 
 public class SemaphoreCell extends Cell {
@@ -39,11 +36,8 @@ public class SemaphoreCell extends Cell {
                 this.car = car;
 
 
+                System.out.println("Célula " + this + "; Carro " + car + "; Entrada; " + LocalDateTime.now());
                 if(car.getCurrentRoad()!=null){
-
-
-
-
                     car.getCurrentRoad().exitThisRoad();
                 }
 
@@ -60,6 +54,7 @@ public class SemaphoreCell extends Cell {
     @Override
     public void exitThisRoad() {
 
+        System.out.println("Célula " + this + "; Carro " + car.toString() + "; Saída; " + LocalDateTime.now());
         this.car = null;
         mutex.release();
     }

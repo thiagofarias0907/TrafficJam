@@ -1,11 +1,9 @@
 package View;
-//import World;
 import instance.Instance;
 import instance.builder.InstanceBuilder;
 import instance.world.cells.cellTypes.CellTypes;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -84,7 +82,6 @@ public class View extends JFrame{
         btnStop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                Instance.getInstance().getWorld().stopCarInitializer();
                 if(Instance.getInstance() !=null)
                     Instance.getInstance().stopRunning(true);
                 btnStart.setEnabled(true);
@@ -101,14 +98,14 @@ public class View extends JFrame{
 
         String spinnerValue = spinnerQtyCars.getValue().toString();
         if (spinnerQtyCars.getValue().toString().isBlank()) {
-            JOptionPane.showMessageDialog(this, "O número de carros precisa ser entre 1 e 99");
+            JOptionPane.showMessageDialog(this, "O número de carros precisa ser entre maior que zero");
             return false;
         }
         try {
             if (Integer.parseInt(spinnerValue)<=0)
                 throw (new Exception());
         } catch (Exception e){
-            JOptionPane.showMessageDialog(this, "O número de carros precisa ser entre 1 e 99");
+            JOptionPane.showMessageDialog(this, "O número de carros precisa ser entre maior que zero");
             return false;
         }
 
@@ -119,10 +116,5 @@ public class View extends JFrame{
         return true;
     }
 
-//    public void setWorld(JComponent world){
-//        JPanel jPanel = new JPanel();
-//        jPanel.add(world);
-//        jpanelCanvas = jPanel;
-//    }
 
 }

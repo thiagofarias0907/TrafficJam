@@ -270,22 +270,6 @@ public class Instance {
         return cellList.stream().toList();
     }
 
-//    private LinkedList<Car> makeVehicles(){
-//        LinkedList<Car> cars = new LinkedList<>();
-//        for(int i=0;i<carsQuantity;i++){
-//            Random rand = new Random();
-//
-//            int r = rand.nextInt(255);
-//            int g = rand.nextInt(255);
-//            int b = rand.nextInt(255);
-//
-//            CarDrawing carDrawing = new CarDrawing( 25, new Color(r, g, b));
-//
-//        Car car = new Car(carDrawing,minVehiclesSpeedInMs, maxVehiclesSpeedInMs);
-//        cars.add(car);
-//        }
-//        return cars;
-//    }
 
     private void addToCrossingGroup(HashMap grid, Cell cell, int line, int column){
 
@@ -297,32 +281,22 @@ public class Instance {
         int sameGroupCellCol  = -1;
 
         //reads from top to bottom and left to right so only need to check above or before
-
-        //sameline
-        //get previous, if before is one crossing type, save the current one on the same crossing group
+        //get previous, if it is a crossing type as well, save the current one on the same crossing group
         if (column > 0){
             if (samelineElements[column-1].matches("5|6|7|8|9|10|11|12|13")){
-//                sameGroupCellKey = line+" "+(column-1);
                 sameGroupCellLine = line;
                 sameGroupCellCol = column-1;
             }
         }
 
-//
-//            //get next
-//            if (column < (fileLines.get(line).length()-1))
-
-
         if (line> 0){
             final String[] previouslineElements = fileLines.get(line-1).split("\t");
             if (previouslineElements[column].matches("5|6|7|8|9|10|11|12|13")){
-//                sameGroupCellKey = (line-1)+" " + column;
                 sameGroupCellLine = (line-1);
                 sameGroupCellCol  = column;
             }
         }
 
-//            if (line<fileLines.size())
         if(sameGroupCellCol>=0 && sameGroupCellLine >=0)
             sameGroupCellKey = sameGroupCellLine + " " + sameGroupCellCol;
 
@@ -350,7 +324,6 @@ public class Instance {
     private void makeWorld(){
 
         HashMap<String, Cell> grid = makeGrid();
-//        LinkedList<Car> cars = makeVehicles();
 
         List<CellDrawing> cellDrawingList = new ArrayList<>();
         List<CarDrawing> carDrawingList = new ArrayList<>();
@@ -359,9 +332,6 @@ public class Instance {
             cellDrawingList.add(cell.getCellDrawing());
         }
 
-//        for (Car car: cars) {
-//            carDrawingList.add(car.getDrawing());
-//        }
 
         setCellPaths(grid);
         WorldDrawable worldDrawable = new WorldDrawable(height, width, roadColWidth, roadLineWidth, cellDrawingList, carDrawingList);

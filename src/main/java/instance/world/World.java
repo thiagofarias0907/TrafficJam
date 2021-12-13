@@ -21,7 +21,6 @@ public class World {
     public World(WorldDrawable drawable, HashMap<String, Cell> grid, List<Cell> enterPoints, List<CrossingCellGroup> crossingCellGroupList) {
         this.drawable = drawable;
         this.grid = grid;
-        this.cars = cars;
         this.enterPoints = enterPoints;
         this.crossingCellGroupList = crossingCellGroupList;
     }
@@ -32,9 +31,6 @@ public class World {
         initializerThread.start();
     }
 
-//    public synchronized void stopCarInitializer(){
-//        carInitializer.stop();
-//    }
 
     public WorldDrawable getDrawable() {
         return drawable;

@@ -36,7 +36,7 @@ public class CarInitializer implements Runnable {
                 int g = rand.nextInt(255);
                 int b = rand.nextInt(255);
 
-                CarDrawing carDrawing = new CarDrawing( 25, new Color(r, g, b));
+                CarDrawing carDrawing = new CarDrawing( (int)(Instance.getInstance().getRoadColWidth()*0.8), new Color(r, g, b));
                 Car car = new Car(carDrawing,Instance.getInstance().getMinVehiclesSpeedInMs(), Instance.getInstance().getMaxVehiclesSpeedInMs());
 
                 int i =0;

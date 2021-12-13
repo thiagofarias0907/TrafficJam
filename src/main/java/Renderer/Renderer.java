@@ -10,11 +10,6 @@ public class Renderer implements Runnable {
 
         while (true){
             Instance.getInstance().getWorld().getDrawable().repaint();
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

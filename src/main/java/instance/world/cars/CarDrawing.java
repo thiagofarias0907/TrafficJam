@@ -20,11 +20,11 @@ public class CarDrawing {
 
     public void draw(Graphics2D graphics2D){
         Instance instance = Instance.getInstance();
-        Rectangle2D.Double carBody = new Rectangle2D.Double(instance.getRoadColWidth()*xPos+6,instance.getRoadLineWidth()*yPos + 10, scale,scale/2);
-        Ellipse2D.Double wheel     = new Ellipse2D.Double(instance.getRoadColWidth()*xPos + 8,instance.getRoadLineWidth()*yPos + 20,scale/4 ,scale/5);
-        Ellipse2D.Double wheel2    = new Ellipse2D.Double(instance.getRoadColWidth()*xPos + 18,instance.getRoadLineWidth()*yPos + 20,scale/4 ,scale/5);
-        Ellipse2D.Double wheel3    = new Ellipse2D.Double(instance.getRoadColWidth()*xPos + 8,instance.getRoadLineWidth()*yPos + 6 ,scale/4 ,scale/5);
-        Ellipse2D.Double wheel4    = new Ellipse2D.Double(instance.getRoadColWidth()*xPos + 18,instance.getRoadLineWidth()*yPos + 6 ,scale/4 ,scale/5);
+        Rectangle2D.Double carBody = new Rectangle2D.Double(instance.getRoadColWidth()*xPos+ scale/5  ,instance.getRoadLineWidth()*yPos + scale/2    , scale     ,scale/2.1);
+        Ellipse2D.Double wheel     = new Ellipse2D.Double(instance.getRoadColWidth()*xPos  + scale/4  ,instance.getRoadLineWidth()*yPos + scale/2.5  ,scale/4 ,scale/5);
+        Ellipse2D.Double wheel2    = new Ellipse2D.Double(instance.getRoadColWidth()*xPos  + scale/1.2,instance.getRoadLineWidth()*yPos + scale/2.5  ,scale/4 ,scale/5);
+        Ellipse2D.Double wheel3    = new Ellipse2D.Double(instance.getRoadColWidth()*xPos  + scale/4  ,instance.getRoadLineWidth()*yPos + scale/1.1  ,scale/4  ,scale/5);
+        Ellipse2D.Double wheel4    = new Ellipse2D.Double(instance.getRoadColWidth()*xPos  + scale/1.2,instance.getRoadLineWidth()*yPos + scale/1.1  ,scale/4  ,scale/5);
 
         graphics2D.setColor(color);
         graphics2D.fill(carBody);

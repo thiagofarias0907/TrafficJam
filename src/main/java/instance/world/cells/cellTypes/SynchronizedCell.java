@@ -4,6 +4,8 @@ import instance.world.cars.Car;
 import instance.world.cells.Cell;
 import instance.world.cells.CellDrawing;
 
+import java.time.LocalDateTime;
+
 public class SynchronizedCell extends Cell {
 
 
@@ -28,6 +30,7 @@ public class SynchronizedCell extends Cell {
                     car.getCurrentRoad().exitThisRoad();
                 }
 
+                System.out.println("Célula " + this + "; Carro " + car + "; Entrada; " + LocalDateTime.now());
                 car.setCurrentRoad(this);
                 return true;
 
@@ -43,6 +46,7 @@ public class SynchronizedCell extends Cell {
     public void exitThisRoad() {
 
         synchronized (this){
+            System.out.println("Célula " + this + "; Carro " + car.toString() + "; Saída; " + LocalDateTime.now());
             this.car = null;
         }
 

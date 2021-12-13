@@ -2,6 +2,7 @@ package instance.world.cells;
 
 import instance.world.cars.Car;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
@@ -9,30 +10,30 @@ import java.util.concurrent.Semaphore;
 public class CrossingCellGroup{
 
     private List<Cell> cellList;
-    private boolean carIsCrossing;
     private Semaphore mutex;
     private Car car;
 
     public CrossingCellGroup() {
         this.cellList = new ArrayList<>();
         this.mutex = new Semaphore(1);
-        this.carIsCrossing = false;
     }
 
-    public synchronized void enterThisCrossing(Car car) {
-        if (!carIsCrossing) {
+    public void enterThisCrossing(Car car) {
+
+        if(this.car == null) {
             try {
-                mutex.acquire(1);
-                this.car = car;
-                carIsCrossing = true;
+                mutex.acquire();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            this.car = car;
+            System.out.println("Cruzamento " + this + "; Carro " + car.toString() + "; Entrada; " + LocalDateTime.now());
         }
     }
 
-    public synchronized void exitThisCrossing() {
-        this.carIsCrossing = false;
+    public void exitThisCrossing() {
+        System.out.println("Cruzamento " + this + "; Carro " + car.toString() + "; Saída; " + LocalDateTime.now());
         this.car = null;
         mutex.release();
     }
@@ -40,10 +41,6 @@ public class CrossingCellGroup{
 
     public List<Cell> getCellList() {
         return cellList;
-    }
-
-    public boolean isCarIsCrossing() {
-        return carIsCrossing;
     }
 
     public Car getCar() {
