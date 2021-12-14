@@ -6,6 +6,9 @@ import instance.world.cells.cellTypes.CellTypes;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class View extends JFrame{
     private JRadioButton rbSemaphore;
@@ -31,8 +34,8 @@ public class View extends JFrame{
         this.rbMonitor.setSelected(true);
         this.tfFilePath.setText("target/classes/malha1-caso1.txt");
         this.spinnerQtyCars.setValue(10);
-        this.spnMinSpeed.setValue(1000);
-        this.spnMaxSpeed.setValue(3000);
+        this.spnMinSpeed.setValue(500);
+        this.spnMaxSpeed.setValue(2000);
 
         jpanelOptions.setVisible(true);
         jpanelCanvas.setVisible(true);
@@ -93,6 +96,13 @@ public class View extends JFrame{
 
         if (tfFilePath.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "Precisa Selecionar o Arquivo contendo a malha!");
+            return false;
+        }
+
+
+        Path filePath = Paths.get(tfFilePath.getText());
+        if (!Files.exists(filePath)) {
+            JOptionPane.showMessageDialog(this, "Arquivo Não Existe!");
             return false;
         }
 
